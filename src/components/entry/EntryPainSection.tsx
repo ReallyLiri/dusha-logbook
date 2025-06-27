@@ -1,5 +1,6 @@
 import React from 'react';
 import { LogEntry, PainDetails } from '../../models/entry';
+import { BodySelect } from '../body/BodySelect.tsx';
 
 type Props = {
   value: LogEntry['pain'] | undefined;
@@ -49,6 +50,8 @@ export const EntryPainSection: React.FC<Props> = ({
   return (
     <div className="space-y-4">
       <label className="block text-secondary-600 mb-1">כאבים בגוף</label>
+      <BodySelect />
+
       <hr className="my-4 border-t border-neutral-200 opacity-60" />
       {(
         [

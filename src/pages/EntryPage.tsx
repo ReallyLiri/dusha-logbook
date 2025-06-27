@@ -54,7 +54,7 @@ export const EntryPage = () => {
       <div className="absolute top-[-60px] left-[-60px] w-60 h-60 bg-[#e89f92] rounded-full opacity-60 z-0" />
       <div className="absolute bottom-[-80px] right-[-80px] w-80 h-80 bg-[#f4d9c8] rounded-full opacity-40 z-0" />
 
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 relative">
+      <div className="max-w-[80vw] w-full bg-white rounded-2xl shadow-xl p-8 relative">
         <button
           className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
           onClick={() => navigate(-1)}
