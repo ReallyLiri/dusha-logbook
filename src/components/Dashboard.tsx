@@ -34,70 +34,83 @@ export const Dashboard = () => {
       <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 space-x-reverse mb-4">
-            <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center">
-              <Sun className="h-6 w-6 text-white" />
-            </div>
-            <div className="text-right">
-              <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700">
-                ברוכה הבאה, {name}!
-              </h1>
-              {!hasMotivation && (
-                <p className="text-secondary-500 mt-1">
-                  מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
-                </p>
-              )}
-              {logbook?.motivation && (
-                <>
-                  <div className="flex gap-4 mt-4">
-                    <p className="text-secondary-500 ">מוטיבציה</p>
-                    <p className="text-primary-700 font-semibold">
-                      {logbook.motivation}
-                    </p>
-                  </div>
-                </>
-              )}
-              {logbook?.goals && logbook.goals.length > 0 && (
-                <>
-                  <div className="flex gap-4 mt-4">
-                    <p className="text-secondary-500 ">מטרות</p>
-                    {logbook.goals.map((goal, index) => (
-                      <p key={index} className="text-primary-700 font-semibold">
-                        {goal}
+        <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
+          <div className="order-2 md:order-1 bg-white rounded-2xl shadow-lg p-8 flex-1 w-full">
+            <div className="flex items-center space-x-3 space-x-reverse mb-4">
+              <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center">
+                <Sun className="h-6 w-6 text-white" />
+              </div>
+              <div className="text-right">
+                <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700">
+                  ברוכה הבאה, {name}!
+                </h1>
+                {!hasMotivation && (
+                  <p className="text-secondary-500 mt-1">
+                    מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
+                  </p>
+                )}
+                {logbook?.motivation && (
+                  <>
+                    <div className="flex gap-4 mt-4">
+                      <p className="text-secondary-500 ">מוטיבציה</p>
+                      <p className="text-primary-700 font-semibold">
+                        {logbook.motivation}
                       </p>
-                    ))}
-                  </div>
-                </>
-              )}
-              {logbook && logbook.targets && logbook.targets.length > 0 && (
-                <>
-                  <p className="text-secondary-500 mt-4">יעדים</p>
-                  <ul className="mt-2 text-secondary-700 list-disc pr-4">
-                    {logbook.targets.map(
-                      (target, idx) =>
-                        (target.from || target.to) && (
-                          <li key={idx}>
-                            <span className="text-primary-500">
-                              {target.name}:
-                            </span>
-                            {target.from && ` ${target.from}`}
-                            {target.to && ` ← ${target.to}`}
-                          </li>
-                        )
-                    )}
-                  </ul>
-                </>
-              )}
-              <button
-                className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-                onClick={() => navigate('/motivation')}
-              >
-                {hasMotivation
-                  ? 'עריכת מוטיבציה ומטרות'
-                  : 'הגדרת מוטיבציה ומטרות'}
-              </button>
+                    </div>
+                  </>
+                )}
+                {logbook?.goals && logbook.goals.length > 0 && (
+                  <>
+                    <div className="flex gap-4 mt-4">
+                      <p className="text-secondary-500 ">מטרות</p>
+                      {logbook.goals.map((goal, index) => (
+                        <p
+                          key={index}
+                          className="text-primary-700 font-semibold"
+                        >
+                          {goal}
+                        </p>
+                      ))}
+                    </div>
+                  </>
+                )}
+                {logbook && logbook.targets && logbook.targets.length > 0 && (
+                  <>
+                    <p className="text-secondary-500 mt-4">יעדים</p>
+                    <ul className="mt-2 text-secondary-700 list-disc pr-4">
+                      {logbook.targets.map(
+                        (target, idx) =>
+                          (target.from || target.to) && (
+                            <li key={idx}>
+                              <span className="text-primary-500">
+                                {target.name}:
+                              </span>
+                              {target.from && ` ${target.from}`}
+                              {target.to && ` ← ${target.to}`}
+                            </li>
+                          )
+                      )}
+                    </ul>
+                  </>
+                )}
+                <button
+                  className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+                  onClick={() => navigate('/motivation')}
+                >
+                  {hasMotivation
+                    ? 'עריכת מוטיבציה ומטרות'
+                    : 'הגדרת מוטיבציה ומטרות'}
+                </button>
+              </div>
             </div>
+          </div>
+          <div className="order-1 md:order-2 max-h-[50vh] flex-shrink-0 flex items-center justify-center mb-4 md:mb-0">
+            <img
+              src="/img/person2.png"
+              alt="Welcome Illustration"
+              className="object-cover w-full h-full max-h-[50vh]"
+              draggable="false"
+            />
           </div>
         </div>
 
