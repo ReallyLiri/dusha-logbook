@@ -3,13 +3,30 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { LogBook } from '../models/entry.ts';
 
+const TARGET_NAMES = [
+  'גמישות',
+  'יציבה',
+  'כוח',
+  'מפרקים',
+  'רמת אנרגיה',
+  'תזונה',
+  'דיבור פנימי',
+];
+
 export const MotivationPage = () => {
   const { logbook, refresh, setProperties } = useDb();
   const navigate = useNavigate();
   const [motivation, setMotivation] = useState(logbook.motivation || '');
   const [goals, setGoals] = useState<string[]>(logbook.goals || []);
   const [targets, setTargets] = useState<LogBook['targets']>(
-    logbook.targets || []
+    TARGET_NAMES.map(
+      (name, idx) =>
+        logbook.targets?.find((t) => t.name === name) || {
+          name,
+          from: '',
+          to: '',
+        }
+    )
   );
   const [saving, setSaving] = useState(false);
 
@@ -96,53 +113,56 @@ export const MotivationPage = () => {
           <hr className="my-4 border-t border-neutral-200 opacity-60" />
           <div>
             <label className="block text-secondary-600 mb-1">יעדים</label>
-            {targets.map((target, idx) => (
-              <div
-                key={idx}
-                className="mb-2 border border-neutral-100 rounded-lg p-2"
-              >
-                <input
-                  placeholder="שם יעד"
-                  value={target.name}
-                  onChange={(e) =>
-                    handleTargetChange(idx, 'name', e.target.value)
-                  }
-                  className="w-full border border-neutral-200 rounded-lg px-3 py-2 mb-1"
-                />
-                <div className="flex gap-2">
-                  <input
-                    placeholder="מ"
-                    value={target.from}
-                    onChange={(e) =>
-                      handleTargetChange(idx, 'from', e.target.value)
-                    }
-                    className="w-full border border-neutral-200 rounded-lg px-3 py-2"
-                  />
-                  <input
-                    placeholder="עד"
-                    value={target.to}
-                    onChange={(e) =>
-                      handleTargetChange(idx, 'to', e.target.value)
-                    }
-                    className="w-full border border-neutral-200 rounded-lg px-3 py-2"
-                  />
-                </div>
-                <button
-                  type="button"
-                  className="mt-1 text-red-500"
-                  onClick={() => handleRemoveTarget(idx)}
-                >
-                  הסר יעד
-                </button>
-              </div>
-            ))}
-            <button
-              type="button"
-              className="mt-2 text-primary-500"
-              onClick={handleAddTarget}
-            >
-              הוספת יעד
-            </button>
+            <div className="overflow-x-auto">
+              <table className="min-w-full border border-neutral-200 rounded-lg">
+                <thead>
+                  <tr>
+                    <th className="px-2 py-1 text-right font-medium text-secondary-600"></th>
+                    <th className="px-2 py-1 text-right font-medium text-secondary-600">
+                      התחלה
+                    </th>
+                    <th className="px-2 py-1 text-right font-medium text-secondary-600">
+                      יעד
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {targets.map((target, idx) => (
+                    <tr key={target.name}>
+                      <td className="px-2 py-1 text-secondary-700 whitespace-nowrap">
+                        {target.name}
+                      </td>
+                      <td className="px-2 py-1">
+                        <input
+                          value={target.from}
+                          onChange={(e) =>
+                            setTargets(
+                              targets.map((t, i) =>
+                                i === idx ? { ...t, from: e.target.value } : t
+                              )
+                            )
+                          }
+                          className="w-full border border-neutral-200 rounded-lg px-2 py-1"
+                        />
+                      </td>
+                      <td className="px-2 py-1">
+                        <input
+                          value={target.to}
+                          onChange={(e) =>
+                            setTargets(
+                              targets.map((t, i) =>
+                                i === idx ? { ...t, to: e.target.value } : t
+                              )
+                            )
+                          }
+                          className="w-full border border-neutral-200 rounded-lg px-2 py-1"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
           <div className="flex justify-center gap-4 mt-6">
             <button
