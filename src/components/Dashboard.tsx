@@ -1,16 +1,10 @@
 import React from 'react';
-import { useAuth } from '../context/AuthContext';
 import { Navbar } from './Navbar';
-import { Sparkles, TrendingUp, Calendar, Plus } from 'lucide-react';
+import { Calendar, Plus, Sparkles, TrendingUp, Sun } from 'lucide-react';
+import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 
 export const Dashboard: React.FC = () => {
-  const { currentUser } = useAuth();
-
-  const getUserName = () => {
-    return (
-      currentUser?.displayName || currentUser?.email?.split('@')[0] || 'משתמש'
-    );
-  };
+  const { name } = useCurrentUser();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
@@ -21,58 +15,15 @@ export const Dashboard: React.FC = () => {
         <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
           <div className="flex items-center space-x-3 space-x-reverse mb-4">
             <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center">
-              <Sparkles className="h-6 w-6 text-white" />
+              <Sun className="h-6 w-6 text-white" />
             </div>
             <div className="text-right">
               <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700">
-                ברוך הבא, {getUserName()}!
+                ברוכה הבאה, {name}!
               </h1>
               <p className="text-secondary-500 mt-1">
-                מוכן לעקוב אחר התובנות שלך ולהמשיך במסע הצמיחה?
+                מוכנה לעקוב אחר התובנות שלך ולהמשיך במסע הצמיחה?
               </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-neutral-100">
-            <div className="flex items-center justify-between">
-              <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Calendar className="h-5 w-5 text-primary-400" />
-              </div>
-              <div className="text-right">
-                <p className="text-secondary-500 text-sm font-medium">
-                  סך הכל רשומות
-                </p>
-                <p className="text-2xl font-bold text-secondary-700 mt-1">0</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-neutral-100">
-            <div className="flex items-center justify-between">
-              <div className="h-10 w-10 bg-secondary-100 rounded-lg flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-secondary-400" />
-              </div>
-              <div className="text-right">
-                <p className="text-secondary-500 text-sm font-medium">השבוע</p>
-                <p className="text-2xl font-bold text-secondary-700 mt-1">0</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-sm p-6 border border-neutral-100">
-            <div className="flex items-center justify-between">
-              <div className="h-10 w-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                <Sparkles className="h-5 w-5 text-primary-400" />
-              </div>
-              <div className="text-right">
-                <p className="text-secondary-500 text-sm font-medium">רצף</p>
-                <p className="text-2xl font-bold text-secondary-700 mt-1">
-                  0 ימים
-                </p>
-              </div>
             </div>
           </div>
         </div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ChevronDown, LogOut, User } from 'lucide-react';
+import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 
 export const Navbar: React.FC = () => {
   const { currentUser, logout } = useAuth();
+  const { name } = useCurrentUser();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +40,7 @@ export const Navbar: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2 space-x-reverse">
             <h1 className="text-xl font-bold text-secondary-600">
-              Dusha Studio
+              Dusha's House
             </h1>
           </div>
           <div className="flex items-center space-x-2 space-x-reverse">
@@ -66,9 +68,7 @@ export const Navbar: React.FC = () => {
                 </div>
                 <div className="hidden sm:block text-right">
                   <p className="text-sm font-medium text-secondary-700">
-                    {currentUser?.displayName ||
-                      currentUser?.email?.split('@')[0] ||
-                      'שתמשתמ'}
+                    {name}
                   </p>
                   <p className="text-xs text-secondary-500">
                     {currentUser?.email}

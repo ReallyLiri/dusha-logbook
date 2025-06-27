@@ -56,7 +56,7 @@ export const Login: React.FC = () => {
           <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             <div className="bg-gradient-to-r from-primary-300 to-secondary-300 px-8 py-10">
               <div className="flex items-center justify-center space-x-2 space-x-reverse">
-                <h1 className="text-2xl font-bold text-white">Dusha Studio</h1>
+                <h1 className="text-2xl font-bold text-white">Dusha's House</h1>
               </div>
               <p className="text-white/90 text-center mt-2 text-sm">
                 יומן מעקב
