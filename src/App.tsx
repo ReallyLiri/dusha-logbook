@@ -4,6 +4,7 @@ import { Login } from './components/Login';
 import { Dashboard } from './components/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { EntryPage } from './components/EntryPage';
+import { MotivationPage } from './components/MotivationPage';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
@@ -16,6 +17,7 @@ const AppContent: React.FC = () => {
     <Routes>
       <Route path="/" element={<Dashboard />} />
       <Route path="/entry/:day" element={<EntryPage />} />
+      <Route path="/motivation" element={<MotivationPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

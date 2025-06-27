@@ -12,7 +12,7 @@ export const Dashboard = () => {
   const navigate = useNavigate();
 
   const todayKey = new Date().toISOString().slice(0, 10);
-  const todayEntry: LogEntry | undefined = logbook[todayKey];
+  const todayEntry: LogEntry | undefined = logbook.entriesByDay[todayKey];
 
   function handleEntryClick(dateKey: string) {
     navigate(`/entry/${dateKey}`);
@@ -24,6 +24,8 @@ export const Dashboard = () => {
 
   // Sorted date keys, newest first
   const sortedDates = Object.keys(logbook).sort((a, b) => b.localeCompare(a));
+
+  const hasMotivation = logbook.motivation || logbook.goals.length > 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
@@ -39,9 +41,41 @@ export const Dashboard = () => {
               <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700">
                 ברוכה הבאה, {name}!
               </h1>
-              <p className="text-secondary-500 mt-1">
-                מוכנה לעקוב אחר התובנות שלך ולהמשיך במסע הצמיחה?
-              </p>
+              {!hasMotivation && (
+                <p className="text-secondary-500 mt-1">
+                  מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
+                </p>
+              )}
+              {logbook.motivation && (
+                <>
+                  <div className="flex gap-4 mt-4">
+                    <p className="text-secondary-500 ">מוטיבציה</p>
+                    <p className="text-primary-700 font-semibold">
+                      {logbook.motivation}
+                    </p>
+                  </div>
+                </>
+              )}
+              {logbook.goals && logbook.goals.length > 0 && (
+                <>
+                  <div className="flex gap-4 mt-4">
+                    <p className="text-secondary-500 ">מטרות</p>
+                    {logbook.goals.map((goal, index) => (
+                      <p key={index} className="text-primary-700 font-semibold">
+                        {goal}
+                      </p>
+                    ))}
+                  </div>
+                </>
+              )}
+              <button
+                className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+                onClick={() => navigate('/motivation')}
+              >
+                {hasMotivation
+                  ? 'עריכת מוטיבציה ומטרות'
+                  : 'הגדרת מוטיבציה ומטרות'}
+              </button>
             </div>
           </div>
         </div>

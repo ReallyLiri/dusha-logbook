@@ -7,7 +7,7 @@ import { useState } from 'react';
 export const EntryPage = () => {
   const { day } = useParams<{ day: string }>();
   const navigate = useNavigate();
-  const { logbook, setLogEntry } = useDb();
+  const { logbook, setDayEntry } = useDb();
   const entry: LogEntry | undefined = day ? logbook[day] : undefined;
   const [editMode, setEditMode] = useState(!entry);
   const [form, setForm] = useState<LogEntry>(entry || { mood: '', notes: '' });
@@ -23,7 +23,7 @@ export const EntryPage = () => {
 
   const handleSave = async () => {
     setSaving(true);
-    await setLogEntry(day, form);
+    await setDayEntry(day, form);
     setSaving(false);
     setEditMode(false);
   };

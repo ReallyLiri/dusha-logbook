@@ -26,7 +26,7 @@ export function useDb() {
     const docRef = doc(collection(db, COLLECTION_NAME), currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      setLogbook(docSnap.data() as LogBook);
+      setLogbook({ ...empty(), ...(docSnap.data() as LogBook) });
     } else {
       setLogbook(empty());
     }
@@ -37,17 +37,39 @@ export function useDb() {
     fetchLogbook();
   }, [fetchLogbook]);
 
-  const setLogEntry = useCallback(
+  const setDayEntry = useCallback(
     async (dateKey: string, entry: LogEntry) => {
       if (!currentUser) {
         return;
       }
       const docRef = doc(collection(db, COLLECTION_NAME), currentUser.uid);
-      await setDoc(docRef, { [dateKey]: entry }, { merge: true });
+      await setDoc(
+        docRef,
+        { entriesByDay: { [dateKey]: entry } },
+        { merge: true }
+      );
       setLogbook((prev) => ({ ...prev, [dateKey]: entry }));
     },
     [currentUser]
   );
 
-  return { logbook, loading, refresh: fetchLogbook, setLogEntry };
+  const setProperties = useCallback(
+    async (data: Partial<LogBook>) => {
+      if (!currentUser) {
+        return;
+      }
+      const docRef = doc(collection(db, COLLECTION_NAME), currentUser.uid);
+      await setDoc(docRef, data, { merge: true });
+      setLogbook((prev) => ({ ...prev, ...data }));
+    },
+    [currentUser]
+  );
+
+  return {
+    logbook,
+    loading,
+    refresh: fetchLogbook,
+    setDayEntry,
+    setProperties,
+  };
 }
