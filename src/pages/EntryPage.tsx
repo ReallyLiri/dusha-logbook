@@ -50,9 +50,9 @@ export const EntryPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex flex-col items-center py-12 px-4">
-      <div className="absolute top-[-60px] left-[-60px] w-60 h-60 bg-[#e89f92] rounded-full opacity-60 z-0" />
-      <div className="absolute bottom-[-80px] right-[-80px] w-80 h-80 bg-[#f4d9c8] rounded-full opacity-40 z-0" />
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex flex-col items-center py-12 px-4 overflow-x-hidden">
+      <div className="absolute top-0 left-0 w-60 h-60 bg-[#f4d9c8] rounded-full opacity-60 z-0" />
+      <div className="absolute bottom-[-80px] right-[-80px] w-80 h-80 bg-[#e89f92] rounded-full opacity-40 z-0" />
 
       <div className="max-w-[80vw] w-full bg-white rounded-2xl shadow-xl p-8 relative">
         <button
