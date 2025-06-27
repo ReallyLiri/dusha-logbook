@@ -1,4 +1,4 @@
-import { Navbar } from './Navbar';
+import { Navbar } from '../components/Navbar.tsx';
 import { Calendar, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 import { LogEntry } from '../models/entry.ts';
@@ -6,7 +6,7 @@ import { formatDate } from '../util/date.ts';
 import { useNavigate } from 'react-router-dom';
 import { useDbContext } from '../context/DbContext.tsx';
 
-export const Dashboard = () => {
+export const Home = () => {
   const { name } = useCurrentUser();
   const { logbook, loading } = useDbContext();
   const navigate = useNavigate();

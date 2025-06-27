@@ -16,12 +16,12 @@ const TARGET_NAMES = [
 export const MotivationPage = () => {
   const { logbook, setProperties } = useDbContext();
   const navigate = useNavigate();
-  const [motivation, setMotivation] = useState(logbook.motivation || '');
-  const [goals, setGoals] = useState<string[]>(logbook.goals || []);
+  const [motivation, setMotivation] = useState(logbook?.motivation || '');
+  const [goals, setGoals] = useState<string[]>(logbook?.goals || []);
   const [targets, setTargets] = useState<LogBook['targets']>(
     TARGET_NAMES.map(
       (name) =>
-        logbook.targets?.find((t) => t.name === name) || {
+        logbook?.targets?.find((t) => t.name === name) || {
           name,
           from: '',
           to: '',
@@ -31,12 +31,12 @@ export const MotivationPage = () => {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    setMotivation(logbook.motivation || '');
-    setGoals(logbook.goals || []);
+    setMotivation(logbook?.motivation || '');
+    setGoals(logbook?.goals || []);
     setTargets(
       TARGET_NAMES.map(
         (name) =>
-          logbook.targets?.find((t) => t.name === name) || {
+          logbook?.targets?.find((t) => t.name === name) || {
             name,
             from: '',
             to: '',
@@ -64,8 +64,11 @@ export const MotivationPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex flex-col items-center py-12 px-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 relative">
+    <div className="relative min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex flex-col items-center py-12 px-4 overflow-hidden">
+      {/* Decorative circles */}
+      <div className="absolute top-[-60px] left-[-60px] w-60 h-60 bg-[#f4d9c8] rounded-full opacity-60 z-0" />
+      <div className="absolute bottom-[-80px] right-[-80px] w-80 h-80 bg-[#e89f92] rounded-full opacity-40 z-0" />
+      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 relative z-10">
         <button
           className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
           onClick={() => navigate(-1)}
