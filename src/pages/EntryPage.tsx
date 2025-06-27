@@ -8,7 +8,7 @@ import { EntryNutritionSection } from '../components/entry/EntryNutritionSection
 import { EntryFeelingsSection } from '../components/entry/EntryFeelingsSection';
 
 const TABS = [
-  { key: 'pain', label: 'מעקב אחר כאב' },
+  { key: 'pain', label: 'כאבים' },
   { key: 'nutrition', label: 'תזונה' },
   { key: 'feelings', label: 'הרגשה' },
 ];
