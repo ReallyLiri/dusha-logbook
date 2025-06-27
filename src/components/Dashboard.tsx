@@ -1,18 +1,18 @@
 import { Navbar } from './Navbar';
 import { Calendar, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
-import { useDb } from '../hooks/useDb.ts';
 import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useNavigate } from 'react-router-dom';
+import { useDbContext } from '../context/DbContext.tsx';
 
 export const Dashboard = () => {
   const { name } = useCurrentUser();
-  const { logbook, loading } = useDb();
+  const { logbook, loading } = useDbContext();
   const navigate = useNavigate();
 
   const todayKey = new Date().toISOString().slice(0, 10);
-  const todayEntry: LogEntry | undefined = logbook.entriesByDay[todayKey];
+  const todayEntry: LogEntry | undefined = logbook?.entriesByDay[todayKey];
 
   function handleEntryClick(dateKey: string) {
     navigate(`/entry/${dateKey}`);
@@ -22,10 +22,12 @@ export const Dashboard = () => {
     navigate(`/entry/${todayKey}`);
   }
 
-  // Sorted date keys, newest first
-  const sortedDates = Object.keys(logbook).sort((a, b) => b.localeCompare(a));
+  const sortedDates = logbook
+    ? Object.keys(logbook).sort((a, b) => b.localeCompare(a))
+    : [];
 
-  const hasMotivation = logbook.motivation || logbook.goals.length > 0;
+  const hasMotivation =
+    logbook && (logbook.motivation || logbook.goals.length > 0);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
@@ -46,7 +48,7 @@ export const Dashboard = () => {
                   מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
                 </p>
               )}
-              {logbook.motivation && (
+              {logbook?.motivation && (
                 <>
                   <div className="flex gap-4 mt-4">
                     <p className="text-secondary-500 ">מוטיבציה</p>
@@ -56,7 +58,7 @@ export const Dashboard = () => {
                   </div>
                 </>
               )}
-              {logbook.goals && logbook.goals.length > 0 && (
+              {logbook?.goals && logbook.goals.length > 0 && (
                 <>
                   <div className="flex gap-4 mt-4">
                     <p className="text-secondary-500 ">מטרות</p>

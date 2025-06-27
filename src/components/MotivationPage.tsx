@@ -1,7 +1,7 @@
-import { useDb } from '../hooks/useDb.ts';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { LogBook } from '../models/entry.ts';
+import { useDbContext } from '../context/DbContext.tsx';
 
 const TARGET_NAMES = [
   'גמישות',
@@ -14,7 +14,7 @@ const TARGET_NAMES = [
 ];
 
 export const MotivationPage = () => {
-  const { logbook, refresh, setProperties } = useDb();
+  const { logbook, setProperties } = useDbContext();
   const navigate = useNavigate();
   const [motivation, setMotivation] = useState(logbook.motivation || '');
   const [goals, setGoals] = useState<string[]>(logbook.goals || []);
@@ -54,8 +54,11 @@ export const MotivationPage = () => {
 
   const handleSave = async () => {
     setSaving(true);
-    await setProperties({ motivation, goals, targets: targets.filter(t => t.from && t.to) });
-    await refresh();
+    await setProperties({
+      motivation,
+      goals,
+      targets: targets.filter((t) => t.from && t.to),
+    });
     setSaving(false);
     navigate('/');
   };

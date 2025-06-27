@@ -1,16 +1,16 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
-  User,
-  signInWithPopup,
   GoogleAuthProvider,
-  signOut,
   onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+  User,
 } from 'firebase/auth';
 import { auth } from '../config/firebase';
 
 interface AuthContextType {
   currentUser: User | null;
-  loginWithGoogle: () => Promise<void>;
+  loginWithGoogle: () => Promise<unknown>;
   logout: () => Promise<void>;
   loading: boolean;
 }
@@ -35,18 +35,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return signInWithPopup(auth, provider);
   };
 
-  const logout = () => {
-    return signOut(auth);
-  };
+  const logout = () => signOut(auth);
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
+  useEffect(
+    () =>
+      onAuthStateChanged(auth, (user) => {
+        setCurrentUser(user);
+        setLoading(false);
+      }),
+    []
+  );
 
   const value: AuthContextType = {
     currentUser,

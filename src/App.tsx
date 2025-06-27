@@ -5,6 +5,7 @@ import { Dashboard } from './components/Dashboard';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { EntryPage } from './components/EntryPage';
 import { MotivationPage } from './components/MotivationPage';
+import { DbProvider } from './context/DbContext.tsx';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
@@ -27,7 +28,9 @@ function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <AppContent />
+        <DbProvider>
+          <AppContent />
+        </DbProvider>
       </BrowserRouter>
     </AuthProvider>
   );

@@ -1,13 +1,13 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { useDb } from '../hooks/useDb.ts';
 import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useState } from 'react';
+import { useDbContext } from '../context/DbContext.tsx';
 
 export const EntryPage = () => {
   const { day } = useParams<{ day: string }>();
   const navigate = useNavigate();
-  const { logbook, setDayEntry } = useDb();
+  const { logbook, setDayEntry } = useDbContext();
   const entry: LogEntry | undefined = day ? logbook[day] : undefined;
   const [editMode, setEditMode] = useState(!entry);
   const [form, setForm] = useState<LogEntry>(entry || { mood: '', notes: '' });
