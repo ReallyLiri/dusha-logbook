@@ -23,7 +23,7 @@ export const Home = () => {
   }
 
   const sortedDates = logbook
-    ? Object.keys(logbook).sort((a, b) => b.localeCompare(a))
+    ? Object.keys(logbook.entriesByDay).sort((a, b) => b.localeCompare(a))
     : [];
 
   const hasMotivation =
@@ -35,9 +35,9 @@ export const Home = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
-          <div className="order-2 md:order-1 bg-white rounded-2xl shadow-lg p-8 flex-1 w-full">
+          <div className="order-2 md:order-1 bg-white rounded-2xl shadow-lg p-2 md:p-8 flex-1 w-full">
             <div className="flex items-center space-x-3 space-x-reverse mb-4">
-              <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center">
+              <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full hidden md:flex items-center justify-center">
                 <Sun className="h-6 w-6 text-white" />
               </div>
               <div className="text-right">
@@ -49,50 +49,55 @@ export const Home = () => {
                     מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
                   </p>
                 )}
-                {logbook?.motivation && (
-                  <>
-                    <div className="flex gap-4 mt-4">
-                      <p className="text-secondary-500 ">מוטיבציה</p>
-                      <p className="text-primary-700 font-semibold">
-                        {logbook.motivation}
-                      </p>
-                    </div>
-                  </>
-                )}
-                {logbook?.goals && logbook.goals.length > 0 && (
-                  <>
-                    <div className="flex gap-4 mt-4">
-                      <p className="text-secondary-500 ">מטרות</p>
-                      {logbook.goals.map((goal, index) => (
-                        <p
-                          key={index}
-                          className="text-primary-700 font-semibold"
-                        >
-                          {goal}
+                <div className="flex flex-col md:flex-row gap-2 md:gap-[15vw]">
+                  {logbook?.motivation && (
+                    <div>
+                      <div className="flex gap-4 mt-4">
+                        <p className=" text-primary-700 font-semibold">
+                          מוטיבציה
                         </p>
-                      ))}
+                        <p className="text-secondary-500">
+                          {logbook.motivation}
+                        </p>
+                      </div>
                     </div>
-                  </>
-                )}
-                {logbook && logbook.targets && logbook.targets.length > 0 && (
-                  <>
-                    <p className="text-secondary-500 mt-4">יעדים</p>
-                    <ul className="mt-2 text-secondary-700 list-disc pr-4">
-                      {logbook.targets.map(
-                        (target, idx) =>
-                          (target.from || target.to) && (
-                            <li key={idx}>
-                              <span className="text-primary-500">
-                                {target.name}:
-                              </span>
-                              {target.from && ` ${target.from}`}
-                              {target.to && ` ← ${target.to}`}
-                            </li>
-                          )
-                      )}
-                    </ul>
-                  </>
-                )}
+                  )}
+                  {logbook?.goals && logbook.goals.length > 0 && (
+                    <div>
+                      <p className="text-primary-700 mt-4 font-semibold">
+                        מטרות
+                      </p>
+                      <ul className="mt-2 text-secondary-700 list-disc pr-4">
+                        {logbook.goals.map((goal, index) => (
+                          <li key={index} className=" text-secondary-500">
+                            {goal}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {logbook && logbook.targets && logbook.targets.length > 0 && (
+                    <div>
+                      <p className="text-primary-700 mt-4 font-semibold">
+                        יעדים
+                      </p>
+                      <ul className="mt-2 list-disc pr-4">
+                        {logbook.targets.map(
+                          (target, idx) =>
+                            (target.from || target.to) && (
+                              <li key={idx}>
+                                <span className="text-secondary-500">
+                                  {target.name}:
+                                </span>
+                                {target.from && ` ${target.from}`}
+                                {target.to && ` ← ${target.to}`}
+                              </li>
+                            )
+                        )}
+                      </ul>
+                    </div>
+                  )}
+                </div>
                 <button
                   className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
                   onClick={() => navigate('/motivation')}
@@ -104,7 +109,7 @@ export const Home = () => {
               </div>
             </div>
           </div>
-          <div className="order-1 md:order-2 max-h-[50vh] flex-shrink-0 flex items-center justify-center mb-4 md:mb-0">
+          <div className="order-1 md:order-2 max-h-[50vh] flex-shrink-0 hidden md:flex items-center justify-center md:mb-0">
             <img
               src="/img/person2.png"
               alt="Welcome Illustration"

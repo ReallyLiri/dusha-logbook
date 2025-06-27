@@ -82,7 +82,7 @@ export const Navbar: React.FC = () => {
 
             {/* Dropdown Menu */}
             {dropdownOpen && (
-              <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+              <div className="absolute left-0 mt-2 w-auto bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
                 <button
                   onClick={handleLogout}
                   className="w-full flex flex-row-reverse items-center justify-end px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
