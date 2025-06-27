@@ -3,6 +3,15 @@ import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useEffect, useState } from 'react';
 import { useDbContext } from '../context/DbContext.tsx';
+import { EntryPainSection } from '../components/entry/EntryPainSection';
+import { EntryNutritionSection } from '../components/entry/EntryNutritionSection';
+import { EntryFeelingsSection } from '../components/entry/EntryFeelingsSection';
+
+const TABS = [
+  { key: 'pain', label: 'מעקב אחר כאב' },
+  { key: 'nutrition', label: 'תזונה' },
+  { key: 'feelings', label: 'הרגשה' },
+];
 
 export const EntryPage = () => {
   const { day } = useParams<{ day: string }>();
@@ -11,6 +20,7 @@ export const EntryPage = () => {
   const [entry, setEntry] = useState<LogEntry | undefined>();
   const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState(TABS[0].key);
 
   useEffect(() => {
     if (loading) {
@@ -45,8 +55,32 @@ export const EntryPage = () => {
           חזרה
         </button>
         <h2 className="text-xl font-bold mt-8 mb-2 text-primary-500 text-center">
+          יומן מעקב
+        </h2>
+        <h2 className="text-m mb-8 text-primary-700 text-center">
           {formatDate(new Date(day))}
         </h2>
+        {!editMode && (
+          <button
+            type="button"
+            className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+            onClick={() => setEditMode(true)}
+          >
+            עריכה
+          </button>
+        )}
+        <div className="mb-6 flex justify-center gap-2">
+          {TABS.map((tab) => (
+            <button
+              key={tab.key}
+              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${activeTab === tab.key ? 'bg-primary-700 text-white' : 'bg-neutral-100 text-secondary-700'}`}
+              onClick={() => setActiveTab(tab.key)}
+              type="button"
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
         <form
           className="space-y-6"
           onSubmit={(e) => {
@@ -54,22 +88,37 @@ export const EntryPage = () => {
             handleSave();
           }}
         >
+          {activeTab === 'pain' && entry && (
+            <EntryPainSection
+              value={entry.pain}
+              onChange={(pain) => setEntry((e) => e && { ...e, pain })}
+              editMode={editMode}
+            />
+          )}
+          {activeTab === 'nutrition' && entry && (
+            <EntryNutritionSection
+              value={entry.nutrition}
+              onChange={(nutrition) =>
+                setEntry((e) => e && { ...e, nutrition })
+              }
+              editMode={editMode}
+            />
+          )}
+          {activeTab === 'feelings' && entry && (
+            <EntryFeelingsSection
+              value={entry.feelings}
+              onChange={(feelings) => setEntry((e) => e && { ...e, feelings })}
+              editMode={editMode}
+            />
+          )}
           <div className="flex justify-center gap-4 mt-6">
-            {editMode ? (
+            {editMode && (
               <button
                 type="submit"
                 className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
                 disabled={saving}
               >
                 שמירה
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-                onClick={() => setEditMode(true)}
-              >
-                ערוך
               </button>
             )}
           </div>
