@@ -55,6 +55,7 @@ const Navbar: React.FC = () => {
                     <img
                       src={currentUser.photoURL}
                       alt="Profile"
+                      referrerPolicy="no-referrer"
                       className="w-full h-full object-cover"
                     />
                   ) : (

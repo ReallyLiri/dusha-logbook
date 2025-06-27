@@ -16,5 +16,6 @@
       Roboto,
       Arial,
       sans-serif;
+      overscroll-behavior: none;
   }
 }
