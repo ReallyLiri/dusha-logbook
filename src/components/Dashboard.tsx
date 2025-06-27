@@ -1,6 +1,5 @@
-import { useState } from 'react';
 import { Navbar } from './Navbar';
-import { Calendar, Plus, Sun } from 'lucide-react';
+import { Calendar, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 import { useDb } from '../hooks/useDb.ts';
 import { LogEntry } from '../models/entry.ts';
@@ -10,8 +9,6 @@ import { useNavigate } from 'react-router-dom';
 export const Dashboard = () => {
   const { name } = useCurrentUser();
   const { logbook, loading } = useDb();
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [viewMode, setViewMode] = useState(false);
   const navigate = useNavigate();
 
   const todayKey = new Date().toISOString().slice(0, 10);

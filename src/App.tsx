@@ -8,7 +8,9 @@ import { EntryPage } from './components/EntryPage';
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
 
-  if (!currentUser) return <Login />;
+  if (!currentUser) {
+    return <Login />;
+  }
 
   return (
     <Routes>
