@@ -1,6 +1,6 @@
 import { useDb } from '../hooks/useDb.ts';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { LogBook } from '../models/entry.ts';
 
 const TARGET_NAMES = [
@@ -20,7 +20,7 @@ export const MotivationPage = () => {
   const [goals, setGoals] = useState<string[]>(logbook.goals || []);
   const [targets, setTargets] = useState<LogBook['targets']>(
     TARGET_NAMES.map(
-      (name, idx) =>
+      (name) =>
         logbook.targets?.find((t) => t.name === name) || {
           name,
           from: '',
@@ -30,6 +30,21 @@ export const MotivationPage = () => {
   );
   const [saving, setSaving] = useState(false);
 
+  useEffect(() => {
+    setMotivation(logbook.motivation || '');
+    setGoals(logbook.goals || []);
+    setTargets(
+      TARGET_NAMES.map(
+        (name) =>
+          logbook.targets?.find((t) => t.name === name) || {
+            name,
+            from: '',
+            to: '',
+          }
+      )
+    );
+  }, [logbook]);
+
   const handleGoalChange = (idx: number, value: string) => {
     setGoals(goals.map((g, i) => (i === idx ? value : g)));
   };
@@ -37,19 +52,9 @@ export const MotivationPage = () => {
   const handleRemoveGoal = (idx: number) =>
     setGoals(goals.filter((_, i) => i !== idx));
 
-  const handleTargetChange = (idx: number, field: string, value: string) => {
-    setTargets(
-      targets.map((t, i) => (i === idx ? { ...t, [field]: value } : t))
-    );
-  };
-  const handleAddTarget = () =>
-    setTargets([...targets, { name: '', from: '', to: '' }]);
-  const handleRemoveTarget = (idx: number) =>
-    setTargets(targets.filter((_, i) => i !== idx));
-
   const handleSave = async () => {
     setSaving(true);
-    await setProperties({ motivation, goals, targets });
+    await setProperties({ motivation, goals, targets: targets.filter(t => t.from && t.to) });
     await refresh();
     setSaving(false);
     navigate('/');
