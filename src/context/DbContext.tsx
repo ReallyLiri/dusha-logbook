@@ -11,7 +11,7 @@ import { LogBook, LogEntry } from '../models/entry.ts';
 
 export const DbContext = createContext<{
   fetchLogbook: () => Promise<void>;
-  setDayEntry: (dateKey: string, entry: LogEntry) => Promise<void>;
+  setDayEntry: (dateKey: string, entry: Partial<LogEntry>) => Promise<void>;
   setProperties: (data: Partial<LogBook>) => Promise<void>;
   logbook: LogBook | null;
   loading: boolean;
@@ -38,7 +38,7 @@ export const DbProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [fetchLogbook]);
 
   const setDayEntry = useCallback(
-    async (dateKey: string, entry: LogEntry) => {
+    async (dateKey: string, entry: Partial<LogEntry>) => {
       if (!currentUser) {
         return;
       }

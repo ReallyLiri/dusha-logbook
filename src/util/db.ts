@@ -24,7 +24,7 @@ export const fetchFromDb = async (uid: string) => {
 export const setEntryData = async (
   uid: string,
   dateKey: string,
-  entry: LogEntry
+  entry: Partial<LogEntry>
 ) => {
   const docRef = doc(collection(db, COLLECTION_NAME), uid);
   await setDoc(docRef, { entriesByDay: { [dateKey]: entry } }, { merge: true });

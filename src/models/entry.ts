@@ -16,18 +16,18 @@ export interface LogEntry {
     detailsAfterTraining: PainDetails[];
   };
   nutrition: {
-    breakfast: string | null;
-    energyAfterBreakfast: number | null;
-    lunch: string | null;
-    energyAfterLunch: number | null;
-    dinner: string | null;
-    energyAfterDinner: number | null;
-    between: string | null;
-    water: number | null;
-    tea: number | null;
-    coffee: number | null;
-    morningFormula: number | null;
-    eveningFormula: number | null;
+    breakfast?: string;
+    energyAfterBreakfast?: number;
+    lunch?: string;
+    energyAfterLunch?: number;
+    dinner?: string;
+    energyAfterDinner?: number;
+    between?: string;
+    water?: number;
+    tea?: number;
+    coffee?: number;
+    morningFormula?: number;
+    eveningFormula?: number;
   };
   feelings: {
     therapy: string[];
@@ -37,7 +37,7 @@ export interface LogEntry {
 }
 
 export interface LogBook {
-  entriesByDay: Record<string, LogEntry>;
+  entriesByDay: Record<string, Partial<LogEntry>>;
 
   goals: string[];
   targets: {
@@ -45,5 +45,5 @@ export interface LogBook {
     from: string;
     to: string;
   }[];
-  motivation: string | null;
+  motivation?: string;
 }

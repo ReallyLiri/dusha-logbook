@@ -2,7 +2,7 @@ import React from 'react';
 import { LogEntry } from '../../models/entry';
 
 type Props = {
-  value: LogEntry['feelings'];
+  value: LogEntry['feelings'] | undefined;
   onChange: (feelings: LogEntry['feelings']) => void;
   editMode: boolean;
 };
@@ -12,6 +12,7 @@ export const EntryFeelingsSection: React.FC<Props> = ({
   onChange,
   editMode,
 }) => {
+  value = value || { therapy: [], training: [], meals: [] };
   return (
     <div className="space-y-4">
       <label className="block text-secondary-600 mb-1">הרגשות</label>

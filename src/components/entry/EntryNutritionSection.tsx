@@ -2,7 +2,7 @@ import React from 'react';
 import { LogEntry } from '../../models/entry';
 
 type Props = {
-  value: LogEntry['nutrition'];
+  value: LogEntry['nutrition'] | undefined;
   onChange: (nutrition: LogEntry['nutrition']) => void;
   editMode: boolean;
 };
@@ -12,6 +12,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
   onChange,
   editMode,
 }) => {
+  value = value || {};
   return (
     <div className="space-y-4">
       <label className="block text-secondary-600 mb-1">ארוחות</label>
@@ -33,7 +34,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
           onChange({
             ...value,
             energyAfterBreakfast:
-              e.target.value === '' ? null : Number(e.target.value),
+              e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -55,7 +56,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
           onChange({
             ...value,
             energyAfterLunch:
-              e.target.value === '' ? null : Number(e.target.value),
+              e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -77,7 +78,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
           onChange({
             ...value,
             energyAfterDinner:
-              e.target.value === '' ? null : Number(e.target.value),
+              e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -98,7 +99,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
         onChange={(e) =>
           onChange({
             ...value,
-            water: e.target.value === '' ? null : Number(e.target.value),
+            water: e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -111,7 +112,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
         onChange={(e) =>
           onChange({
             ...value,
-            tea: e.target.value === '' ? null : Number(e.target.value),
+            tea: e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -124,7 +125,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
         onChange={(e) =>
           onChange({
             ...value,
-            coffee: e.target.value === '' ? null : Number(e.target.value),
+            coffee: e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -138,7 +139,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
           onChange({
             ...value,
             morningFormula:
-              e.target.value === '' ? null : Number(e.target.value),
+              e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />
@@ -152,7 +153,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
           onChange({
             ...value,
             eveningFormula:
-              e.target.value === '' ? null : Number(e.target.value),
+              e.target.value === '' ? undefined : Number(e.target.value),
           })
         }
       />

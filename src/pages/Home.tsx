@@ -29,6 +29,10 @@ export const Home = () => {
   const hasMotivation =
     logbook && (logbook.motivation || logbook.goals.length > 0);
 
+  if (loading) {
+    return <div className="text-center text-secondary-600">טוען...</div>;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
       <Navbar />

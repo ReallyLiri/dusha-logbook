@@ -1,13 +1,8 @@
 import React from 'react';
-import { PainLocation, LogEntry, PainDetails } from '../../models/entry';
-
-type Location = {
-  location: PainLocation;
-  side: 'left' | 'right' | 'both';
-};
+import { LogEntry, PainDetails } from '../../models/entry';
 
 type Props = {
-  value: LogEntry['pain'];
+  value: LogEntry['pain'] | undefined;
   onChange: (pain: LogEntry['pain']) => void;
   editMode: boolean;
 };
@@ -17,30 +12,11 @@ export const EntryPainSection: React.FC<Props> = ({
   onChange,
   editMode,
 }) => {
-  const handleLocationChange = (
-    idx: number,
-    field: keyof Location,
-    val: PainLocation | 'left' | 'right' | 'both'
-  ) => {
-    const updated = value.locations.map((l, i) =>
-      i === idx ? { ...l, [field]: val } : l
-    );
-    onChange({ ...value, locations: updated });
-  };
-  const handleAddLocation = () => {
-    onChange({
-      ...value,
-      locations: [
-        ...value.locations,
-        { location: 'arm' as PainLocation, side: 'left' as 'left' },
-      ],
-    });
-  };
-  const handleRemoveLocation = (idx: number) => {
-    onChange({
-      ...value,
-      locations: value.locations.filter((_, i) => i !== idx),
-    });
+  value = value || {
+    locations: [],
+    detailsBefore: [],
+    detailsAfterTherapy: [],
+    detailsAfterTraining: [],
   };
 
   const handleDetailsChange = (
@@ -57,7 +33,7 @@ export const EntryPainSection: React.FC<Props> = ({
   const handleAddDetails = (key: keyof Omit<LogEntry['pain'], 'locations'>) => {
     onChange({
       ...value,
-      [key]: [...(value[key] as PainDetails[]), { where: '', level: 0 }],
+      [key]: [...(value[key] as PainDetails[]), { where: '', level: '' }],
     });
   };
   const handleRemoveDetails = (
@@ -72,63 +48,7 @@ export const EntryPainSection: React.FC<Props> = ({
 
   return (
     <div className="space-y-4">
-      <label className="block text-secondary-600 mb-1">מיקומים</label>
-      {value.locations.map((loc, idx) => (
-        <div key={idx} className="flex gap-2 items-center mb-2">
-          <select
-            disabled={!editMode}
-            className="border rounded px-2 py-1"
-            value={loc.location}
-            onChange={(e) =>
-              handleLocationChange(
-                idx,
-                'location',
-                e.target.value as PainLocation
-              )
-            }
-          >
-            <option value="arm">יד</option>
-            <option value="front">קדמי</option>
-            <option value="back">גב</option>
-            <option value="head">ראש</option>
-            <option value="foot">רגל</option>
-          </select>
-          <select
-            disabled={!editMode}
-            className="border rounded px-2 py-1"
-            value={loc.side}
-            onChange={(e) =>
-              handleLocationChange(
-                idx,
-                'side',
-                e.target.value as 'left' | 'right' | 'both'
-              )
-            }
-          >
-            <option value="left">שמאל</option>
-            <option value="right">ימין</option>
-            <option value="both">שניהם</option>
-          </select>
-          {editMode && (
-            <button
-              type="button"
-              className="text-red-500"
-              onClick={() => handleRemoveLocation(idx)}
-            >
-              הסר
-            </button>
-          )}
-        </div>
-      ))}
-      {editMode && (
-        <button
-          type="button"
-          className="text-primary-500"
-          onClick={handleAddLocation}
-        >
-          הוסף מיקום
-        </button>
-      )}
+      <label className="block text-secondary-600 mb-1">כאבים בגוף</label>
       {(
         [
           'detailsBefore',
@@ -138,7 +58,7 @@ export const EntryPainSection: React.FC<Props> = ({
       ).map((key) => (
         <div key={key}>
           <label className="block text-secondary-600 mt-4 mb-1">
-            {key === 'detailsBefore' && 'רמת כאב לפני טיפול'}
+            {key === 'detailsBefore' && 'רמת כאב לפני'}
             {key === 'detailsAfterTherapy' && 'רמת כאב אחרי טיפול'}
             {key === 'detailsAfterTraining' && 'רמת כאב אחרי אימון'}
           </label>
@@ -148,6 +68,7 @@ export const EntryPainSection: React.FC<Props> = ({
                 type="text"
                 disabled={!editMode}
                 className="border rounded px-2 py-1"
+                placeholder="איפה כואב?"
                 value={det.where}
                 onChange={(e) =>
                   handleDetailsChange(key, idx, 'where', e.target.value)
@@ -155,10 +76,11 @@ export const EntryPainSection: React.FC<Props> = ({
               />
               <input
                 type="number"
-                min={0}
+                min={1}
                 max={10}
                 disabled={!editMode}
-                className="border rounded px-2 py-1 w-16"
+                placeholder="כאב בין 1 ל-10"
+                className="border rounded px-2 py-1 w-32"
                 value={det.level}
                 onChange={(e) =>
                   handleDetailsChange(key, idx, 'level', Number(e.target.value))
@@ -170,7 +92,7 @@ export const EntryPainSection: React.FC<Props> = ({
                   className="text-red-500"
                   onClick={() => handleRemoveDetails(key, idx)}
                 >
-                  הסר
+                  הסרה
                 </button>
               )}
             </div>
@@ -181,7 +103,7 @@ export const EntryPainSection: React.FC<Props> = ({
               className="text-primary-500"
               onClick={() => handleAddDetails(key)}
             >
-              הוסף
+              הוספה
             </button>
           )}
         </div>
