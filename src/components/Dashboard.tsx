@@ -5,24 +5,24 @@ import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 import { useDb } from '../hooks/useDb.ts';
 import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
+import { useNavigate } from 'react-router-dom';
 
 export const Dashboard = () => {
   const { name } = useCurrentUser();
   const { logbook, loading } = useDb();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState(false);
+  const navigate = useNavigate();
 
   const todayKey = new Date().toISOString().slice(0, 10);
   const todayEntry: LogEntry | undefined = logbook[todayKey];
 
   function handleEntryClick(dateKey: string) {
-    setSelectedDate(dateKey);
-    setViewMode(true);
+    navigate(`/entry/${dateKey}`);
   }
 
   function handleNewOrEditToday() {
-    setSelectedDate(todayKey);
-    setViewMode(false);
+    navigate(`/entry/${todayKey}`);
   }
 
   // Sorted date keys, newest first
@@ -107,46 +107,6 @@ export const Dashboard = () => {
             )}
           </div>
         </div>
-
-        {/* Record View/Edit Modal (Mock) */}
-        {selectedDate && (
-          <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl shadow-xl p-8 max-w-md w-full relative">
-              <button
-                className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
-                onClick={() => setSelectedDate(null)}
-              >
-                סגור
-              </button>
-              <h2 className="text-xl font-bold mb-4 text-secondary-700">
-                {viewMode ? 'צפייה ברשומה' : 'עריכת רשומה'} ליום{' '}
-                {formatDate(new Date(selectedDate))}
-              </h2>
-              <div className="mb-4">
-                {/* Mock record data */}
-                <div className="text-secondary-600">
-                  מצב רוח: {logbook[selectedDate]?.mood || '---'}
-                </div>
-                <div className="text-secondary-600">
-                  הערות: {logbook[selectedDate]?.notes || '---'}
-                </div>
-              </div>
-              {!viewMode && (
-                <div className="text-center text-secondary-400">
-                  עריכת רשומה (ממשק עריכה יתווסף בהמשך)
-                </div>
-              )}
-              {viewMode && (
-                <button
-                  className="mt-4 bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-                  onClick={() => setViewMode(false)}
-                >
-                  ערוך
-                </button>
-              )}
-            </div>
-          </div>
-        )}
       </main>
     </div>
   );
