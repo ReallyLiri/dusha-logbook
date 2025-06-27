@@ -1,29 +1,36 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDbContext } from '../context/DbContext.tsx';
 
 export const EntryPage = () => {
   const { day } = useParams<{ day: string }>();
   const navigate = useNavigate();
-  const { logbook, setDayEntry } = useDbContext();
-  const entry: LogEntry | undefined = day ? logbook[day] : undefined;
-  const [editMode, setEditMode] = useState(!entry);
-  const [form, setForm] = useState<LogEntry>(entry || { mood: '', notes: '' });
+  const { logbook, setDayEntry, loading } = useDbContext();
+  const [entry, setEntry] = useState<LogEntry | undefined>();
+  const [editMode, setEditMode] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  if (!day) return <div>Invalid entry</div>;
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    const entry = logbook?.entriesByDay?.[day || ''];
+    setEntry(entry);
+    setEditMode(!entry);
+  }, [day, loading, logbook?.entriesByDay]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+  if (!day) {
+    return <div>Invalid entry</div>;
+  }
 
   const handleSave = async () => {
+    if (!entry) {
+      return;
+    }
     setSaving(true);
-    await setDayEntry(day, form);
+    await setDayEntry(day, entry);
     setSaving(false);
     setEditMode(false);
   };
@@ -37,8 +44,7 @@ export const EntryPage = () => {
         >
           חזרה
         </button>
-        <h2 className="text-xl font-bold mb-4 text-secondary-700 text-center">
-          {editMode ? 'עריכת רשומה' : 'צפייה ברשומה'} ליום{' '}
+        <h2 className="text-xl font-bold mt-8 mb-2 text-primary-500 text-center">
           {formatDate(new Date(day))}
         </h2>
         <form
@@ -48,36 +54,6 @@ export const EntryPage = () => {
             handleSave();
           }}
         >
-          <div>
-            <label className="block text-secondary-600 mb-1">מצב רוח</label>
-            {editMode ? (
-              <input
-                name="mood"
-                value={form.mood}
-                onChange={handleChange}
-                className="w-full border border-neutral-200 rounded-lg px-3 py-2"
-                required
-              />
-            ) : (
-              <div className="text-secondary-700">{form.mood || '---'}</div>
-            )}
-          </div>
-          <div>
-            <label className="block text-secondary-600 mb-1">הערות</label>
-            {editMode ? (
-              <textarea
-                name="notes"
-                value={form.notes}
-                onChange={handleChange}
-                className="w-full border border-neutral-200 rounded-lg px-3 py-2"
-                rows={4}
-              />
-            ) : (
-              <div className="text-secondary-700 whitespace-pre-line">
-                {form.notes || '---'}
-              </div>
-            )}
-          </div>
           <div className="flex justify-center gap-4 mt-6">
             {editMode ? (
               <button

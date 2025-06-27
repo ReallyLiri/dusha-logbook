@@ -122,7 +122,8 @@ export const Home = () => {
         {/* CTA Section */}
         <div className="bg-gradient-to-r from-primary-300 to-secondary-300 rounded-2xl shadow-lg p-8 text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">
-            מעקב יומי עבור {formatDate(new Date())}
+            מעקב יומי עבור
+            <span className="block md:inline"> {formatDate(new Date())}</span>
           </h2>
           {todayEntry ? (
             <>
