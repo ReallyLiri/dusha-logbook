@@ -2,13 +2,20 @@ import { useCallback, useEffect, useState } from 'react';
 import { db } from '../config/firebase';
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { useAuth } from '../context/AuthContext.tsx';
-import { LogEntry } from '../models/entry.ts';
+import { LogBook, LogEntry } from '../models/entry.ts';
 
 const COLLECTION_NAME = 'logbook';
 
+const empty = (): LogBook => ({
+  entriesByDay: {},
+  goals: [],
+  targets: [],
+  motivation: '',
+});
+
 export function useDb() {
   const { currentUser } = useAuth();
-  const [logbook, setLogbook] = useState<Record<string, LogEntry>>({});
+  const [logbook, setLogbook] = useState<LogBook>(empty());
   const [loading, setLoading] = useState(true);
 
   const fetchLogbook = useCallback(async () => {
@@ -19,9 +26,9 @@ export function useDb() {
     const docRef = doc(collection(db, COLLECTION_NAME), currentUser.uid);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
-      setLogbook(docSnap.data() as Record<string, LogEntry>);
+      setLogbook(docSnap.data() as LogBook);
     } else {
-      setLogbook({});
+      setLogbook(empty());
     }
     setLoading(false);
   }, [currentUser]);
