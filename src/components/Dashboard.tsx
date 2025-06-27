@@ -1,51 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navbar } from './Navbar';
 import { Calendar, Plus, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
-import { db } from '../config/firebase';
-import { collection, doc, getDoc } from 'firebase/firestore';
+import { useDb } from '../hooks/useDb.ts';
+import { LogEntry } from '../models/entry.ts';
+import { formatDate } from '../util/date.ts';
 
-// Mock LogEntry type
-interface LogEntry {
-  mood: string;
-  notes: string;
-}
-
-function formatHebrewDate(date: Date) {
-  return date.toLocaleDateString('he-IL', {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-}
-
-export const Dashboard: React.FC = () => {
-  const { name, uid } = useCurrentUser();
-  const [logbook, setLogbook] = useState<Record<string, LogEntry>>({});
+export const Dashboard = () => {
+  const { name } = useCurrentUser();
+  const { logbook, loading } = useDb();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (!uid) return;
-    async function fetchLogbook() {
-      setLoading(true);
-      // Firestore: logbook collection, doc is user id
-      const docRef = doc(collection(db, 'logbook'), uid);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setLogbook(docSnap.data() as Record<string, LogEntry>);
-      } else {
-        setLogbook({});
-      }
-      setLoading(false);
-    }
-    fetchLogbook();
-  }, [uid]);
 
   const todayKey = new Date().toISOString().slice(0, 10);
-  const todayEntry = logbook[todayKey];
+  const todayEntry: LogEntry | undefined = logbook[todayKey];
 
   function handleEntryClick(dateKey: string) {
     setSelectedDate(dateKey);
@@ -84,7 +52,7 @@ export const Dashboard: React.FC = () => {
         {/* CTA Section */}
         <div className="bg-gradient-to-r from-primary-300 to-secondary-300 rounded-2xl shadow-lg p-8 text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">
-            מעקב יומי עבור יום {formatHebrewDate(new Date())}
+            מעקב יומי עבור יום {formatDate(new Date())}
           </h2>
           {todayEntry ? (
             <>
@@ -138,7 +106,7 @@ export const Dashboard: React.FC = () => {
                     onClick={() => handleEntryClick(dateKey)}
                   >
                     <span className="font-medium text-secondary-700">
-                      {formatHebrewDate(new Date(dateKey))}
+                      {formatDate(new Date(dateKey))}
                     </span>
                     <Calendar className="h-5 w-5 text-primary-300" />
                   </li>
@@ -160,7 +128,7 @@ export const Dashboard: React.FC = () => {
               </button>
               <h2 className="text-xl font-bold mb-4 text-secondary-700">
                 {viewMode ? 'צפייה ברשומה' : 'עריכת רשומה'} ליום{' '}
-                {formatHebrewDate(new Date(selectedDate))}
+                {formatDate(new Date(selectedDate))}
               </h2>
               <div className="mb-4">
                 {/* Mock record data */}
