@@ -52,32 +52,24 @@ export const Dashboard = () => {
         {/* CTA Section */}
         <div className="bg-gradient-to-r from-primary-300 to-secondary-300 rounded-2xl shadow-lg p-8 text-center mb-8">
           <h2 className="text-2xl font-bold text-white mb-4">
-            מעקב יומי עבור יום {formatDate(new Date())}
+            מעקב יומי עבור {formatDate(new Date())}
           </h2>
           {todayEntry ? (
             <>
-              <p className="text-white/90 mb-6">
-                כבר יש לך רשומה להיום. רוצה לערוך?
-              </p>
               <button
                 className="bg-white text-secondary-600 px-8 py-3 rounded-lg font-semibold hover:bg-neutral-50 transition-colors inline-flex items-center space-x-2 space-x-reverse shadow-sm"
                 onClick={handleNewOrEditToday}
               >
-                <span>ערכי את הרשומה של היום</span>
-                <Plus className="h-5 w-5" />
+                <span>הרשומה של היום</span>
               </button>
             </>
           ) : (
             <>
-              <p className="text-white/90 mb-6">
-                עוד לא הזנת רשומה להיום. רוצה להתחיל?
-              </p>
               <button
                 className="bg-white text-secondary-600 px-8 py-3 rounded-lg font-semibold hover:bg-neutral-50 transition-colors inline-flex items-center space-x-2 space-x-reverse shadow-sm"
                 onClick={handleNewOrEditToday}
               >
-                <span>התחילי מעקב יומי</span>
-                <Plus className="h-5 w-5" />
+                <span> עוד לא הזנת רשומה להיום. רוצה להתחיל?</span>
               </button>
             </>
           )}
