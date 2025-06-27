@@ -17,7 +17,10 @@ const Navbar: React.FC = () => {
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setDropdownOpen(false);
       }
     };
@@ -35,7 +38,9 @@ const Navbar: React.FC = () => {
           {/* Logo */}
           <div className="flex items-center space-x-2 space-x-reverse">
             <BookOpen className="h-8 w-8 text-primary-300" />
-            <h1 className="text-xl font-bold text-secondary-600">דושה-לוגבוק</h1>
+            <h1 className="text-xl font-bold text-secondary-600">
+              דושה-לוגבוק
+            </h1>
           </div>
 
           {/* User Menu */}
@@ -47,9 +52,9 @@ const Navbar: React.FC = () => {
               <div className="flex items-center space-x-2 space-x-reverse">
                 <div className="h-8 w-8 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center overflow-hidden">
                   {currentUser?.photoURL ? (
-                    <img 
-                      src={currentUser.photoURL} 
-                      alt="Profile" 
+                    <img
+                      src={currentUser.photoURL}
+                      alt="Profile"
                       className="w-full h-full object-cover"
                     />
                   ) : (
@@ -58,14 +63,18 @@ const Navbar: React.FC = () => {
                 </div>
                 <div className="hidden sm:block text-right">
                   <p className="text-sm font-medium text-secondary-700">
-                    {currentUser?.displayName || currentUser?.email?.split('@')[0] || 'משתמש'}
+                    {currentUser?.displayName ||
+                      currentUser?.email?.split('@')[0] ||
+                      'משתמש'}
                   </p>
                   <p className="text-xs text-secondary-500">
                     {currentUser?.email}
                   </p>
                 </div>
               </div>
-              <ChevronDown className={`h-4 w-4 text-secondary-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} />
+              <ChevronDown
+                className={`h-4 w-4 text-secondary-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+              />
             </button>
 
             {/* Dropdown Menu */}
@@ -73,13 +82,15 @@ const Navbar: React.FC = () => {
               <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
                 <div className="px-4 py-3 border-b border-neutral-100 sm:hidden">
                   <p className="text-sm font-medium text-secondary-700 text-right">
-                    {currentUser?.displayName || currentUser?.email?.split('@')[0] || 'משתמש'}
+                    {currentUser?.displayName ||
+                      currentUser?.email?.split('@')[0] ||
+                      'משתמש'}
                   </p>
                   <p className="text-xs text-secondary-500 truncate text-right">
                     {currentUser?.email}
                   </p>
                 </div>
-                
+
                 <button
                   onClick={handleLogout}
                   className="w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center justify-end space-x-2 space-x-reverse transition-colors"
