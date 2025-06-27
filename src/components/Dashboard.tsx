@@ -70,6 +70,25 @@ export const Dashboard = () => {
                   </div>
                 </>
               )}
+              {logbook && logbook.targets && logbook.targets.length > 0 && (
+                <>
+                  <p className="text-secondary-500 mt-4">יעדים</p>
+                  <ul className="mt-2 text-secondary-700 list-disc pr-4">
+                    {logbook.targets.map(
+                      (target, idx) =>
+                        (target.from || target.to) && (
+                          <li key={idx}>
+                            <span className="text-primary-500">
+                              {target.name}:
+                            </span>
+                            {target.from && ` ${target.from}`}
+                            {target.to && ` ← ${target.to}`}
+                          </li>
+                        )
+                    )}
+                  </ul>
+                </>
+              )}
               <button
                 className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
                 onClick={() => navigate('/motivation')}
