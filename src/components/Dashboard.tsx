@@ -1,9 +1,9 @@
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
-import Navbar from './Navbar';
+import { Navbar } from './Navbar';
 import { Sparkles, TrendingUp, Calendar, Plus } from 'lucide-react';
 
-const Dashboard: React.FC = () => {
+export const Dashboard: React.FC = () => {
   const { currentUser } = useAuth();
 
   const getUserName = () => {
@@ -116,5 +116,3 @@ const Dashboard: React.FC = () => {
     </div>
   );
 };
-
-export default Dashboard;

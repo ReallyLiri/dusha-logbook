@@ -22,7 +22,7 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const Login: React.FC = () => {
+export const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -106,5 +106,3 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
-export default Login;

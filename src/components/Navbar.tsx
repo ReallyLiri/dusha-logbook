@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { BookOpen, User, LogOut, ChevronDown } from 'lucide-react';
+import { ChevronDown, LogOut, User } from 'lucide-react';
 
-const Navbar: React.FC = () => {
+export const Navbar: React.FC = () => {
   const { currentUser, logout } = useAuth();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -37,10 +37,12 @@ const Navbar: React.FC = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center space-x-2 space-x-reverse">
-            <BookOpen className="h-8 w-8 text-primary-300" />
             <h1 className="text-xl font-bold text-secondary-600">
-              דושה-לוגבוק
+              Dusha Studio
             </h1>
+          </div>
+          <div className="flex items-center space-x-2 space-x-reverse">
+            <h1 className="text-xl font-bold text-primary-500">יומן מעקב</h1>
           </div>
 
           {/* User Menu */}
@@ -66,7 +68,7 @@ const Navbar: React.FC = () => {
                   <p className="text-sm font-medium text-secondary-700">
                     {currentUser?.displayName ||
                       currentUser?.email?.split('@')[0] ||
-                      'משתמש'}
+                      'שתמשתמ'}
                   </p>
                   <p className="text-xs text-secondary-500">
                     {currentUser?.email}
@@ -81,22 +83,11 @@ const Navbar: React.FC = () => {
             {/* Dropdown Menu */}
             {dropdownOpen && (
               <div className="absolute left-0 mt-2 w-56 bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
-                <div className="px-4 py-3 border-b border-neutral-100 sm:hidden">
-                  <p className="text-sm font-medium text-secondary-700 text-right">
-                    {currentUser?.displayName ||
-                      currentUser?.email?.split('@')[0] ||
-                      'משתמש'}
-                  </p>
-                  <p className="text-xs text-secondary-500 truncate text-right">
-                    {currentUser?.email}
-                  </p>
-                </div>
-
                 <button
                   onClick={handleLogout}
-                  className="w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center justify-end space-x-2 space-x-reverse transition-colors"
+                  className="w-full flex flex-row-reverse items-center justify-end px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
                 >
-                  <span>התנתק</span>
+                  <span className="mr-2 text-right w-full">התנתקות</span>
                   <LogOut className="h-4 w-4" />
                 </button>
               </div>
@@ -107,5 +98,3 @@ const Navbar: React.FC = () => {
     </nav>
   );
 };
-
-export default Navbar;
