@@ -49,14 +49,18 @@ export const EntryPainSection: React.FC<Props> = ({
   return (
     <div className="space-y-4">
       <label className="block text-secondary-600 mb-1">כאבים בגוף</label>
+      <hr className="my-4 border-t border-neutral-200 opacity-60" />
       {(
         [
           'detailsBefore',
           'detailsAfterTherapy',
           'detailsAfterTraining',
         ] as const
-      ).map((key) => (
+      ).map((key, i) => (
         <div key={key}>
+          {i > 0 && (
+            <hr className="my-4 border-t border-neutral-200 opacity-60" />
+          )}
           <label className="block text-secondary-600 mt-4 mb-1">
             {key === 'detailsBefore' && 'רמת כאב לפני'}
             {key === 'detailsAfterTherapy' && 'רמת כאב אחרי טיפול'}
