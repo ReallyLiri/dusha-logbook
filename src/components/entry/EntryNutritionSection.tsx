@@ -23,233 +23,238 @@ export const EntryNutritionSection: React.FC<Props> = ({
         <Moon className="text-primary-700" />
       </div>
 
+      <label className="block text-secondary-600 mb-1">ארוחות</label>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {/* Breakfast */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            ארוחת בוקר
-          </label>
-          <input
-            type="text"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="פרטים"
-            value={value.breakfast || ''}
-            onChange={(e) => onChange({ ...value, breakfast: e.target.value })}
-          />
-        </div>
-
-        {/* Energy after breakfast */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            אנרגיה אחרי ארוחת בוקר
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="בין 1 ל-10"
-            value={value.energyAfterBreakfast ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                energyAfterBreakfast:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Lunch */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            ארוחת צהריים
-          </label>
-          <input
-            type="text"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="פרטים"
-            value={value.lunch || ''}
-            onChange={(e) => onChange({ ...value, lunch: e.target.value })}
-          />
-        </div>
-
-        {/* Energy after lunch */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            אנרגיה אחרי ארוחת צהריים
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="בין 1 ל-10"
-            value={value.energyAfterLunch ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                energyAfterLunch:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Dinner */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            ארוחת ערב
-          </label>
-          <input
-            type="text"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="פרטים"
-            value={value.dinner || ''}
-            onChange={(e) => onChange({ ...value, dinner: e.target.value })}
-          />
-        </div>
-
-        {/* Energy after dinner */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            אנרגיה אחרי ארוחת ערב
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="בין 1 ל-10"
-            value={value.energyAfterDinner ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                energyAfterDinner:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Snacks */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            נשנושים
-          </label>
-          <input
-            type="text"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="פרטים"
-            value={value.between || ''}
-            onChange={(e) => onChange({ ...value, between: e.target.value })}
-          />
-        </div>
-
-        {/* Water */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            מים
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="כמות כוסות"
-            value={value.water ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                water:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Tea */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            תה
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="כמות כוסות"
-            value={value.tea ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                tea: e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Coffee */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            קפה
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="כמות כוסות"
-            value={value.coffee ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                coffee:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Morning Formula */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            פורמולה בוקר
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="כמות כפיות"
-            value={value.morningFormula ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                morningFormula:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
-
-        {/* Evening Formula */}
-        <div className="space-y-1">
-          <label className="block text-sm font-medium text-secondary-600">
-            פורמולה ערב
-          </label>
-          <input
-            type="number"
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full"
-            placeholder="כמות כפיות"
-            value={value.eveningFormula ?? ''}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                eveningFormula:
-                  e.target.value === '' ? undefined : Number(e.target.value),
-              })
-            }
-          />
-        </div>
+        {(editMode || value.breakfast) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              ארוחת בוקר
+            </label>
+            <input
+              type="text"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="פרטים"
+              value={value.breakfast || ''}
+              onChange={(e) =>
+                onChange({ ...value, breakfast: e.target.value })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.energyAfterBreakfast !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              אנרגיה אחרי ארוחת בוקר
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="בין 1 ל-10"
+              value={value.energyAfterBreakfast ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  energyAfterBreakfast:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.lunch) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              ארוחת צהריים
+            </label>
+            <input
+              type="text"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="פרטים"
+              value={value.lunch || ''}
+              onChange={(e) => onChange({ ...value, lunch: e.target.value })}
+            />
+          </div>
+        )}
+        {(editMode || value.energyAfterLunch !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              אנרגיה אחרי ארוחת צהריים
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="בין 1 ל-10"
+              value={value.energyAfterLunch ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  energyAfterLunch:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.dinner) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              ארוחת ערב
+            </label>
+            <input
+              type="text"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="פרטים"
+              value={value.dinner || ''}
+              onChange={(e) => onChange({ ...value, dinner: e.target.value })}
+            />
+          </div>
+        )}
+        {(editMode || value.energyAfterDinner !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              אנרגיה אחרי ארוחת ערב
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="בין 1 ל-10"
+              value={value.energyAfterDinner ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  energyAfterDinner:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.between) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              נשנושים
+            </label>
+            <input
+              type="text"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="פרטים"
+              value={value.between || ''}
+              onChange={(e) => onChange({ ...value, between: e.target.value })}
+            />
+          </div>
+        )}
+        {(editMode || value.water !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              מים
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="כמות כוסות"
+              value={value.water ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  water:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.tea !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              תה
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="כמות כוסות"
+              value={value.tea ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  tea:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.coffee !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              קפה
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="כמות כוסות"
+              value={value.coffee ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  coffee:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.morningFormula !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              פורמולה בוקר
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="כמות כפיות"
+              value={value.morningFormula ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  morningFormula:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
+        {(editMode || value.eveningFormula !== undefined) && (
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-secondary-600">
+              פורמולה ערב
+            </label>
+            <input
+              type="number"
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full"
+              placeholder="כמות כפיות"
+              value={value.eveningFormula ?? ''}
+              onChange={(e) =>
+                onChange({
+                  ...value,
+                  eveningFormula:
+                    e.target.value === '' ? undefined : Number(e.target.value),
+                })
+              }
+            />
+          </div>
+        )}
       </div>
     </div>
   );
