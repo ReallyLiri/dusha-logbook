@@ -86,7 +86,7 @@ export const Home = () => {
                       <p className="text-primary-700 mt-4 font-semibold">
                         יעדים
                       </p>
-                      <ul className="mt-2 list-disc pr-4">
+                      <ul className="mt-2 text-secondary-700 list-disc pr-4">
                         {logbook.targets.map(
                           (target, idx) =>
                             (target.from || target.to) && (
