@@ -50,7 +50,10 @@ export const EntryPainSection: React.FC<Props> = ({
   return (
     <div className="space-y-4">
       <label className="block text-secondary-600 mb-1">כאבים בגוף</label>
-      <BodySelect />
+      <BodySelect
+        locations={value.locations}
+        setLocations={(locations) => onChange({ ...value, locations })}
+      />
 
       <hr className="my-4 border-t border-neutral-200 opacity-60" />
       {(

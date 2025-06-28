@@ -1,4 +1,10 @@
-export const MenBodySvgComponent = () => {
+import React from 'react';
+
+export const MenBodySvgComponent = ({
+  onClick,
+}: {
+  onClick: (e: React.MouseEvent<SVGSVGElement>) => void;
+}) => {
   return (
     <svg
       id="body-model-adult-male-front"
@@ -9,6 +15,7 @@ export const MenBodySvgComponent = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeMiterlimit="1.5"
+      onClick={onClick}
     >
       <g>
         <path

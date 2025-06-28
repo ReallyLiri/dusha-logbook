@@ -1,5 +1,3 @@
-export type PainLocation = 'arm' | 'front' | 'back' | 'head' | 'foot';
-
 export type PainDetails = {
   where: string;
   level: number;
@@ -7,10 +5,7 @@ export type PainDetails = {
 
 export interface LogEntry {
   pain: {
-    locations: {
-      location: PainLocation;
-      side: 'left' | 'right' | 'both';
-    }[];
+    locations: string[];
     detailsBefore: PainDetails[];
     detailsAfterTherapy: PainDetails[];
     detailsAfterTraining: PainDetails[];
