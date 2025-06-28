@@ -5,11 +5,16 @@ import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useNavigate } from 'react-router-dom';
 import { useDbContext } from '../context/DbContext.tsx';
+import { useState, useMemo } from 'react';
 
 export const Home = () => {
   const { name } = useCurrentUser();
   const { logbook, loading } = useDbContext();
   const navigate = useNavigate();
+  const [dateFilter, setDateFilter] = useState<{ from: string; to: string }>({
+    from: '',
+    to: '',
+  });
 
   const todayKey = new Date().toISOString().slice(0, 10);
   const todayEntry: Partial<LogEntry> | undefined =
@@ -26,6 +31,22 @@ export const Home = () => {
   const sortedDates = logbook
     ? Object.keys(logbook.entriesByDay).sort((a, b) => b.localeCompare(a))
     : [];
+
+  const dateRange = useMemo(() => {
+    if (sortedDates.length === 0) return { min: '', max: '' };
+    return {
+      min: sortedDates[sortedDates.length - 1],
+      max: sortedDates[0],
+    };
+  }, [sortedDates]);
+
+  const filteredDates = useMemo(() => {
+    return sortedDates.filter((date) => {
+      if (dateFilter.from && date < dateFilter.from) return false;
+      if (dateFilter.to && date > dateFilter.to) return false;
+      return true;
+    });
+  }, [sortedDates, dateFilter]);
 
   const hasMotivation =
     logbook && (logbook.motivation || logbook.goals.length > 0);
@@ -153,9 +174,52 @@ export const Home = () => {
 
         {/* History Section */}
         <div className="mt-8">
-          <h3 className="text-xl font-semibold text-secondary-700 mb-4 text-right">
-            רשומות אחרונות
-          </h3>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+            <h3 className="text-xl font-semibold text-secondary-700 text-right">
+              ימים קודמים
+            </h3>
+            {sortedDates.length > 0 && (
+              <div className="flex flex-col sm:flex-row gap-2 items-center">
+                <label className="text-sm text-secondary-600 whitespace-nowrap">
+                  סינון לפי תאריך:
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="date"
+                    min={dateRange.min}
+                    max={dateRange.max}
+                    value={dateFilter.from}
+                    onChange={(e) =>
+                      setDateFilter((prev) => ({
+                        ...prev,
+                        from: e.target.value,
+                      }))
+                    }
+                    className="border border-neutral-300 rounded px-2 py-1 text-sm"
+                  />
+                  <span className="text-secondary-500 self-center">עד</span>
+                  <input
+                    type="date"
+                    min={dateRange.min}
+                    max={dateRange.max}
+                    value={dateFilter.to}
+                    onChange={(e) =>
+                      setDateFilter((prev) => ({ ...prev, to: e.target.value }))
+                    }
+                    className="border border-neutral-300 rounded px-2 py-1 text-sm"
+                  />
+                  {(dateFilter.from || dateFilter.to) && (
+                    <button
+                      onClick={() => setDateFilter({ from: '', to: '' })}
+                      className="text-primary-500 hover:text-primary-700 text-sm"
+                    >
+                      נקה
+                    </button>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
           <div className="bg-white rounded-xl shadow-sm p-8 border border-neutral-100">
             {loading ? (
               <div className="text-center text-secondary-400">
@@ -165,9 +229,13 @@ export const Home = () => {
               <div className="text-center text-secondary-400">
                 אין רשומות עדיין
               </div>
+            ) : filteredDates.length === 0 ? (
+              <div className="text-center text-secondary-400">
+                אין רשומות בטווח התאריכים שנבחר
+              </div>
             ) : (
               <ul className="divide-y divide-neutral-100">
-                {sortedDates.map((dateKey) => (
+                {filteredDates.map((dateKey) => (
                   <li
                     key={dateKey}
                     className="py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-50 rounded-lg px-2"
