@@ -1,5 +1,6 @@
 import React from 'react';
 import { LogEntry } from '../../models/entry';
+import { CloudSun, Moon, Coffee, Banana } from 'lucide-react';
 
 type Props = {
   value: LogEntry['nutrition'] | undefined;
@@ -15,148 +16,241 @@ export const EntryNutritionSection: React.FC<Props> = ({
   value = value || {};
   return (
     <div className="space-y-4">
-      <label className="block text-secondary-600 mb-1">ארוחות</label>
-      <input
-        type="text"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="ארוחת בוקר"
-        value={value.breakfast || ''}
-        onChange={(e) => onChange({ ...value, breakfast: e.target.value })}
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="אנרגיה אחרי בוקר"
-        value={value.energyAfterBreakfast ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            energyAfterBreakfast:
-              e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="text"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="ארוחת צהריים"
-        value={value.lunch || ''}
-        onChange={(e) => onChange({ ...value, lunch: e.target.value })}
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="אנרגיה אחרי צהריים"
-        value={value.energyAfterLunch ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            energyAfterLunch:
-              e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="text"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="ארוחת ערב"
-        value={value.dinner || ''}
-        onChange={(e) => onChange({ ...value, dinner: e.target.value })}
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="אנרגיה אחרי ערב"
-        value={value.energyAfterDinner ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            energyAfterDinner:
-              e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="text"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="נשנושים"
-        value={value.between || ''}
-        onChange={(e) => onChange({ ...value, between: e.target.value })}
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="מים (כוסות)"
-        value={value.water ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            water: e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="תה (כוסות)"
-        value={value.tea ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            tea: e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="קפה (כוסות)"
-        value={value.coffee ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            coffee: e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="פורמולה בוקר (כפיות)"
-        value={value.morningFormula ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            morningFormula:
-              e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
-      <input
-        type="number"
-        disabled={!editMode}
-        className="border rounded px-2 py-1 w-full mb-2"
-        placeholder="פורמולה ערב (כפיות)"
-        value={value.eveningFormula ?? ''}
-        onChange={(e) =>
-          onChange({
-            ...value,
-            eveningFormula:
-              e.target.value === '' ? undefined : Number(e.target.value),
-          })
-        }
-      />
+      <div className="flex w-full items-center justify-center gap-2 ">
+        <CloudSun className="text-primary-500" />
+        <Banana className="text-primary-700" />
+        <Coffee className="text-primary-500" />
+        <Moon className="text-primary-700" />
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Breakfast */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            ארוחת בוקר
+          </label>
+          <input
+            type="text"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="פרטים"
+            value={value.breakfast || ''}
+            onChange={(e) => onChange({ ...value, breakfast: e.target.value })}
+          />
+        </div>
+
+        {/* Energy after breakfast */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            אנרגיה אחרי ארוחת בוקר
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="בין 1 ל-10"
+            value={value.energyAfterBreakfast ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                energyAfterBreakfast:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Lunch */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            ארוחת צהריים
+          </label>
+          <input
+            type="text"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="פרטים"
+            value={value.lunch || ''}
+            onChange={(e) => onChange({ ...value, lunch: e.target.value })}
+          />
+        </div>
+
+        {/* Energy after lunch */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            אנרגיה אחרי ארוחת צהריים
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="בין 1 ל-10"
+            value={value.energyAfterLunch ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                energyAfterLunch:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Dinner */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            ארוחת ערב
+          </label>
+          <input
+            type="text"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="פרטים"
+            value={value.dinner || ''}
+            onChange={(e) => onChange({ ...value, dinner: e.target.value })}
+          />
+        </div>
+
+        {/* Energy after dinner */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            אנרגיה אחרי ארוחת ערב
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="בין 1 ל-10"
+            value={value.energyAfterDinner ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                energyAfterDinner:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Snacks */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            נשנושים
+          </label>
+          <input
+            type="text"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="פרטים"
+            value={value.between || ''}
+            onChange={(e) => onChange({ ...value, between: e.target.value })}
+          />
+        </div>
+
+        {/* Water */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            מים
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="כמות כוסות"
+            value={value.water ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                water:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Tea */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            תה
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="כמות כוסות"
+            value={value.tea ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                tea: e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Coffee */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            קפה
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="כמות כוסות"
+            value={value.coffee ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                coffee:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Morning Formula */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            פורמולה בוקר
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="כמות כפיות"
+            value={value.morningFormula ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                morningFormula:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+
+        {/* Evening Formula */}
+        <div className="space-y-1">
+          <label className="block text-sm font-medium text-secondary-600">
+            פורמולה ערב
+          </label>
+          <input
+            type="number"
+            disabled={!editMode}
+            className="border rounded px-2 py-1 w-full"
+            placeholder="כמות כפיות"
+            value={value.eveningFormula ?? ''}
+            onChange={(e) =>
+              onChange({
+                ...value,
+                eveningFormula:
+                  e.target.value === '' ? undefined : Number(e.target.value),
+              })
+            }
+          />
+        </div>
+      </div>
     </div>
   );
 };
