@@ -73,7 +73,7 @@ export const MotivationPage = () => {
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 relative z-10">
         <button
           className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
         >
           חזרה
         </button>

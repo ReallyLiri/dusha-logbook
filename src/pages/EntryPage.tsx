@@ -6,6 +6,7 @@ import { useDbContext } from '../context/DbContext.tsx';
 import { EntryPainSection } from '../components/entry/EntryPainSection';
 import { EntryNutritionSection } from '../components/entry/EntryNutritionSection';
 import { EntryFeelingsSection } from '../components/entry/EntryFeelingsSection';
+import { Check, Pencil } from 'lucide-react';
 
 const TABS = [
   { key: 'pain', label: 'כאבים' },
@@ -57,7 +58,7 @@ export const EntryPage = () => {
       <div className="max-w-[80vw] w-full bg-white rounded-2xl shadow-xl p-8 relative">
         <button
           className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/')}
         >
           חזרה
         </button>
@@ -67,36 +68,50 @@ export const EntryPage = () => {
         <h2 className="text-m mb-8 text-primary-700 text-center">
           {formatDate(new Date(day))}
         </h2>
+
         {!editMode && (
           <div className="flex justify-center mb-6">
             <button
               type="button"
-              className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+              className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
               onClick={() => setEditMode(true)}
             >
-              עריכה
+              <span>עריכה</span>
+              <Pencil />
             </button>
           </div>
         )}
-        <div className="mb-6 flex justify-center gap-2">
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${activeTab === tab.key ? 'bg-primary-700 text-white' : 'bg-neutral-100 text-secondary-700'}`}
-              onClick={() => setActiveTab(tab.key)}
-              type="button"
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+
         <form
-          className="space-y-6"
           onSubmit={(e) => {
             e.preventDefault();
             handleSave();
           }}
         >
+          {editMode && (
+            <div className="flex justify-center mb-6">
+              <button
+                type="submit"
+                className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
+                disabled={saving}
+              >
+                שמירה
+                <Check />
+              </button>
+            </div>
+          )}
+          <div className="mb-6 flex justify-center gap-2">
+            {TABS.map((tab) => (
+              <button
+                key={tab.key}
+                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${activeTab === tab.key ? 'bg-primary-700 text-white' : 'bg-neutral-100 text-secondary-700'}`}
+                onClick={() => setActiveTab(tab.key)}
+                type="button"
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
           {activeTab === 'pain' && (
             <EntryPainSection
               value={entry?.pain}
@@ -122,17 +137,6 @@ export const EntryPage = () => {
               editMode={editMode}
             />
           )}
-          <div className="flex justify-center gap-4 mt-6">
-            {editMode && (
-              <button
-                type="submit"
-                className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-                disabled={saving}
-              >
-                שמירה
-              </button>
-            )}
-          </div>
         </form>
       </div>
     </div>

@@ -1,23 +1,23 @@
 .sc-body-model-svg {
-    flex: 1;
-    height: 100%;
+  flex: 1;
+  height: 100%;
 }
 .sc-body-model-svg__path {
-    fill: #ffdec5;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  fill: #ffdec5;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .sc-body-model-svg__stroke {
-    fill: #be5014;
-    pointer-events: none;
+  fill: #be5014;
+  pointer-events: none;
 }
 .sc-body-model-svg__path--selected {
-    fill: #f9ae75;
+  fill: #f9ae75;
 }
 .sc-body-model-svg__path--active,
 .sc-body-model-svg__path:hover {
-    fill: #ffa14e;
+  fill: #ffa14e;
 }

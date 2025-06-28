@@ -12,7 +12,8 @@ export const Home = () => {
   const navigate = useNavigate();
 
   const todayKey = new Date().toISOString().slice(0, 10);
-  const todayEntry: LogEntry | undefined = logbook?.entriesByDay[todayKey];
+  const todayEntry: Partial<LogEntry> | undefined =
+    logbook?.entriesByDay[todayKey];
 
   function handleEntryClick(dateKey: string) {
     navigate(`/entry/${dateKey}`);
