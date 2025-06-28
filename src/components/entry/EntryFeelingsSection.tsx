@@ -7,39 +7,62 @@ type Props = {
   editMode: boolean;
 };
 
+const getLabel = (field: string) => {
+  switch (field) {
+    case 'general':
+      return 'בכללי';
+    case 'training':
+      return 'אחרי טיפול או אימון';
+    case 'meals':
+      return 'אחרי ארוחה';
+    default:
+      return '';
+  }
+};
+
+const getPlaceholder = (field: string) => {
+  switch (field) {
+    case 'training':
+      return 'איך הרגשת אחרי האימון או הטיפול? שחרור, החמרה, אנרגטיות, עייפות ...';
+    case 'meals':
+      return 'איך הרגשת אחרי ארוחה? כבדות, נפיחות, עצירות, יציאות רכות, אנרגטיות ...';
+    case 'general':
+      return 'תובנות או מחשבות שעלו לי. משהו נחמד להגיד לעצמי.';
+    default:
+      return '';
+  }
+};
+
 export const EntryFeelingsSection: React.FC<Props> = ({
   value,
   onChange,
   editMode,
 }) => {
-  value = value || { therapy: [], training: [], meals: [] };
+  value = value || {};
   return (
     <div className="space-y-4">
-      <label className="block text-secondary-600 mb-1">הרגשות</label>
-      {(['therapy', 'training', 'meals'] as const).map((field) => (
-        <div key={field}>
-          <label className="block text-secondary-500 mb-1">
-            {field === 'therapy' && 'טיפול'}
-            {field === 'training' && 'אימון'}
-            {field === 'meals' && 'ארוחות'}
-          </label>
-          <textarea
-            disabled={!editMode}
-            className="border rounded px-2 py-1 w-full mb-2"
-            placeholder={field}
-            value={value[field].join(', ')}
-            onChange={(e) =>
-              onChange({
-                ...value,
-                [field]: e.target.value
-                  .split(',')
-                  .map((s) => s.trim())
-                  .filter(Boolean),
-              })
-            }
-          />
-        </div>
-      ))}
+      <label className="block text-primary-500 mb-1">איך הרגשת היום?</label>
+      {(['training', 'meals', 'general'] as const)
+        .filter((field) => editMode || value?.[field])
+        .map((field) => (
+          <div key={field}>
+            <label className="block text-secondary-500 mb-1">
+              {getLabel(field)}
+            </label>
+            <textarea
+              disabled={!editMode}
+              className="border rounded px-2 py-1 w-full mb-2"
+              placeholder={getPlaceholder(field)}
+              value={value?.[field] || ''}
+              onChange={(e) =>
+                onChange({
+                  ...(value || {}),
+                  [field]: e.target.value.trim(),
+                })
+              }
+            />
+          </div>
+        ))}
     </div>
   );
 };

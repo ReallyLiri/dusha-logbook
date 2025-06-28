@@ -25,9 +25,9 @@ export interface LogEntry {
     eveningFormula?: number;
   };
   feelings: {
-    therapy: string[];
-    training: string[];
-    meals: string[];
+    training?: string;
+    meals?: string;
+    general?: string;
   };
 }
 
