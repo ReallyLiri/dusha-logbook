@@ -1,5 +1,6 @@
 import React from 'react';
 import { LogEntry } from '../../models/entry';
+import { PersonStanding, Activity } from 'lucide-react';
 
 type Props = {
   value: LogEntry['feelings'] | undefined;
@@ -41,6 +42,11 @@ export const EntryFeelingsSection: React.FC<Props> = ({
   value = value || {};
   return (
     <div className="space-y-4">
+      <div className="flex w-full items-center justify-center gap-2 ">
+        <Activity className="text-primary-500" />
+        <PersonStanding className="text-primary-700" />
+      </div>
+
       <label className="block text-primary-500 mb-1">איך הרגשת היום?</label>
       {(['training', 'meals', 'general'] as const)
         .filter((field) => editMode || value?.[field])
@@ -63,6 +69,15 @@ export const EntryFeelingsSection: React.FC<Props> = ({
             />
           </div>
         ))}
+
+      <div className="w-full flex items-center justify-center md:mb-0">
+        <img
+          src="/img/person3.png"
+          alt="Person"
+          className="object-cover w-full h-full max-w-[30vw]"
+          draggable="false"
+        />
+      </div>
     </div>
   );
 };
