@@ -74,7 +74,7 @@ export const EntryFeelingsSection: React.FC<Props> = ({
         <img
           src="/img/person3.png"
           alt="Person"
-          className="object-cover w-full h-full max-w-[30vw]"
+          className="object-cover w-full h-full md:max-w-[30vw]"
           draggable="false"
         />
       </div>

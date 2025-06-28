@@ -50,7 +50,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="בין 1 ל-10"
               value={value.energyAfterBreakfast ?? ''}
               onChange={(e) =>
@@ -86,7 +86,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="בין 1 ל-10"
               value={value.energyAfterLunch ?? ''}
               onChange={(e) =>
@@ -122,7 +122,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="בין 1 ל-10"
               value={value.energyAfterDinner ?? ''}
               onChange={(e) =>
@@ -158,7 +158,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="כמות כוסות"
               value={value.water ?? ''}
               onChange={(e) =>
@@ -179,7 +179,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="כמות כוסות"
               value={value.tea ?? ''}
               onChange={(e) =>
@@ -200,7 +200,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="כמות כוסות"
               value={value.coffee ?? ''}
               onChange={(e) =>
@@ -221,7 +221,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="כמות כפיות"
               value={value.morningFormula ?? ''}
               onChange={(e) =>
@@ -242,7 +242,7 @@ export const EntryNutritionSection: React.FC<Props> = ({
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 min-w-[80px]"
+              className="border rounded px-2 py-1 w-full md:w-auto"
               placeholder="כמות כפיות"
               value={value.eveningFormula ?? ''}
               onChange={(e) =>
@@ -255,6 +255,15 @@ export const EntryNutritionSection: React.FC<Props> = ({
             />
           </div>
         )}
+      </div>
+
+      <div className="max-h-[40vh] flex items-center justify-center md:mb-0">
+        <img
+          src="/img/person4.png"
+          alt="Person"
+          className="object-cover max-h-[40vh]"
+          draggable="false"
+        />
       </div>
     </div>
   );
