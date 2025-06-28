@@ -6,12 +6,16 @@ import React, { useEffect } from 'react';
 const SELECTED_CLASS = 'sc-body-model-svg__path--selected';
 
 type Props = {
+  editMode: boolean;
   locations: string[];
   setLocations: (locations: string[]) => void;
 };
 
-export const BodySelect = ({ locations, setLocations }: Props) => {
+export const BodySelect = ({ locations, setLocations, editMode }: Props) => {
   const onClick = (e: React.MouseEvent<SVGSVGElement>) => {
+    if (!editMode) {
+      return;
+    }
     if (e.target instanceof SVGPathElement && e.target.id) {
       const id = e.target.id;
       if (locations.includes(id)) {

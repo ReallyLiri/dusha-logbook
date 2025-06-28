@@ -68,13 +68,15 @@ export const EntryPage = () => {
           {formatDate(new Date(day))}
         </h2>
         {!editMode && (
-          <button
-            type="button"
-            className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-            onClick={() => setEditMode(true)}
-          >
-            עריכה
-          </button>
+          <div className="flex justify-center mb-6">
+            <button
+              type="button"
+              className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+              onClick={() => setEditMode(true)}
+            >
+              עריכה
+            </button>
+          </div>
         )}
         <div className="mb-6 flex justify-center gap-2">
           {TABS.map((tab) => (
