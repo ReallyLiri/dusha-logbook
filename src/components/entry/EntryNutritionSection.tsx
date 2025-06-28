@@ -43,14 +43,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.energyAfterBreakfast !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               אנרגיה אחרי ארוחת בוקר
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="בין 1 ל-10"
               value={value.energyAfterBreakfast ?? ''}
               onChange={(e) =>
@@ -79,14 +79,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.energyAfterLunch !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               אנרגיה אחרי ארוחת צהריים
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="בין 1 ל-10"
               value={value.energyAfterLunch ?? ''}
               onChange={(e) =>
@@ -115,14 +115,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.energyAfterDinner !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               אנרגיה אחרי ארוחת ערב
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="בין 1 ל-10"
               value={value.energyAfterDinner ?? ''}
               onChange={(e) =>
@@ -151,14 +151,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.water !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               מים
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="כמות כוסות"
               value={value.water ?? ''}
               onChange={(e) =>
@@ -172,14 +172,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.tea !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               תה
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="כמות כוסות"
               value={value.tea ?? ''}
               onChange={(e) =>
@@ -193,14 +193,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.coffee !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               קפה
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="כמות כוסות"
               value={value.coffee ?? ''}
               onChange={(e) =>
@@ -214,14 +214,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.morningFormula !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               פורמולה בוקר
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="כמות כפיות"
               value={value.morningFormula ?? ''}
               onChange={(e) =>
@@ -235,14 +235,14 @@ export const EntryNutritionSection: React.FC<Props> = ({
           </div>
         )}
         {(editMode || value.eveningFormula !== undefined) && (
-          <div className="space-y-1">
+          <div className="space-y-1 w-auto whitespace-nowrap">
             <label className="block text-sm font-medium text-secondary-600">
               פורמולה ערב
             </label>
             <input
               type="number"
               disabled={!editMode}
-              className="border rounded px-2 py-1 w-full"
+              className="border rounded px-2 py-1 min-w-[80px]"
               placeholder="כמות כפיות"
               value={value.eveningFormula ?? ''}
               onChange={(e) =>
