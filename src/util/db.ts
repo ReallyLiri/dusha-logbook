@@ -1,5 +1,5 @@
 import { auth, db } from '../config/firebase.ts';
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, getDocs } from 'firebase/firestore';
 import { LogBook, LogEntry } from '../models/entry.ts';
 
 const COLLECTION_NAME = 'logbook';
@@ -49,4 +49,9 @@ export const setData = async (uid: string, data: Partial<LogBook>) => {
     ...(prev || empty()),
     ...data,
   });
+};
+
+export const fetchAllUsers = async () => {
+  const snapshot = await getDocs(collection(db, COLLECTION_NAME));
+  return snapshot.docs.map((doc) => doc.data().user);
 };

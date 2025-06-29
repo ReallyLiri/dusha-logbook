@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { LogEntry } from '../models/entry.ts';
+import { LogEntry, LogBook } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useEffect, useState } from 'react';
 import { useDbContext } from '../context/DbContext.tsx';
@@ -14,25 +14,35 @@ const TABS = [
   { key: 'feelings', label: 'הרגשה' },
 ];
 
-export const EntryPage = () => {
-  const { day } = useParams<{ day: string }>();
+export const EntryPage = ({
+  adminView,
+}: {
+  adminView?: { logbook: LogBook; day: string; email: string };
+} = {}) => {
+  const params = useParams<{ day: string }>();
   const navigate = useNavigate();
   const { logbook, setDayEntry, loading } = useDbContext();
   const [entry, setEntry] = useState<Partial<LogEntry> | undefined>();
-  const [editMode, setEditMode] = useState(false);
+  const [editMode, setEditMode] = useState(!!adminView);
   const [saving, setSaving] = useState(false);
   const [activeTab, setActiveTab] = useState(TABS[0].key);
 
+  const effectiveLogbook = adminView?.logbook || logbook;
+  const effectiveDay = adminView?.day || params.day;
+  const effectiveSetDayEntry = adminView ? undefined : setDayEntry;
+  const isAdmin = !!adminView;
+  const adminEmail = adminView?.email;
+
   useEffect(() => {
-    if (loading) {
+    if (loading && !adminView) {
       return;
     }
-    const entry = logbook?.entriesByDay?.[day || ''];
+    const entry = effectiveLogbook?.entriesByDay?.[effectiveDay || ''];
     setEntry(entry);
-    setEditMode(!entry);
-  }, [day, loading, logbook?.entriesByDay]);
+    setEditMode(!!adminView || !entry);
+  }, [effectiveDay, loading, effectiveLogbook?.entriesByDay, adminView]);
 
-  if (!day) {
+  if (!effectiveDay) {
     return <div>Invalid entry</div>;
   }
 
@@ -41,12 +51,14 @@ export const EntryPage = () => {
       return;
     }
     setSaving(true);
-    await setDayEntry(day, entry);
+    if (effectiveSetDayEntry) {
+      await effectiveSetDayEntry(effectiveDay, entry);
+    }
     setSaving(false);
     setEditMode(false);
   };
 
-  if (loading) {
+  if (loading && !adminView) {
     return <div className="text-center text-secondary-600">טוען...</div>;
   }
 
@@ -58,16 +70,27 @@ export const EntryPage = () => {
       <div className="max-w-[80vw] w-full bg-white rounded-2xl shadow-xl p-8 relative">
         <button
           className="absolute top-4 left-4 text-secondary-400 hover:text-secondary-600"
-          onClick={() => navigate('/')}
+          onClick={() => {
+            if (isAdmin) {
+              navigate(-1);
+            } else {
+              navigate('/');
+            }
+          }}
         >
           חזרה
         </button>
         <h2 className="text-xl font-bold mt-8 mb-2 text-primary-500 text-center">
           יומן מעקב
         </h2>
-        <h2 className="text-m mb-8 text-primary-700 text-center">
-          {formatDate(new Date(day))}
+        <h2 className="text-m mb-2 text-primary-700 text-center">
+          {formatDate(new Date(effectiveDay))}
         </h2>
+        {isAdmin && adminEmail && (
+          <div className="text-center text-secondary-500 mb-6">
+            {adminEmail}
+          </div>
+        )}
 
         {!editMode && (
           <div className="flex justify-center mb-6">

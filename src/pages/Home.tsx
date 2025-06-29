@@ -1,7 +1,7 @@
 import { Navbar } from '../components/Navbar.tsx';
 import { Calendar, Sparkles, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
-import { LogEntry } from '../models/entry.ts';
+import { LogEntry, LogBook } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useNavigate } from 'react-router-dom';
 import { useDbContext } from '../context/DbContext.tsx';
@@ -174,85 +174,119 @@ export const Home = () => {
         </div>
 
         {/* History Section */}
-        <div className="mt-8">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
-            <h3 className="text-xl font-semibold text-secondary-700 text-right">
-              ימים קודמים
-            </h3>
-            {sortedDates.length > 0 && (
-              <div className="flex flex-col sm:flex-row gap-2 items-center">
-                <label className="text-sm text-secondary-600 whitespace-nowrap">
-                  סינון לפי תאריך:
-                </label>
-                <div className="flex gap-2">
-                  <input
-                    type="date"
-                    min={dateRange.min}
-                    max={dateRange.max}
-                    value={dateFilter.from}
-                    onChange={(e) =>
-                      setDateFilter((prev) => ({
-                        ...prev,
-                        from: e.target.value,
-                      }))
-                    }
-                    className="border border-neutral-300 rounded px-2 py-1 text-sm"
-                  />
-                  <span className="text-secondary-500 self-center">עד</span>
-                  <input
-                    type="date"
-                    min={dateRange.min}
-                    max={dateRange.max}
-                    value={dateFilter.to}
-                    onChange={(e) =>
-                      setDateFilter((prev) => ({ ...prev, to: e.target.value }))
-                    }
-                    className="border border-neutral-300 rounded px-2 py-1 text-sm"
-                  />
-                  {(dateFilter.from || dateFilter.to) && (
-                    <button
-                      onClick={() => setDateFilter({ from: '', to: '' })}
-                      className="text-primary-500 hover:text-primary-700 text-sm"
-                    >
-                      נקה
-                    </button>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="bg-white rounded-xl shadow-sm p-8 border border-neutral-100">
-            {loading ? (
-              <div className="text-center text-secondary-400">
-                טוען נתונים...
-              </div>
-            ) : sortedDates.length === 0 ? (
-              <div className="text-center text-secondary-400">
-                אין רשומות עדיין
-              </div>
-            ) : filteredDates.length === 0 ? (
-              <div className="text-center text-secondary-400">
-                אין רשומות בטווח התאריכים שנבחר
-              </div>
-            ) : (
-              <ul className="divide-y divide-neutral-100">
-                {filteredDates.map((dateKey) => (
-                  <li
-                    key={dateKey}
-                    className="py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-50 rounded-lg px-2"
-                    onClick={() => handleEntryClick(dateKey)}
-                  >
-                    <span className="font-medium text-secondary-700">
-                      {formatDate(new Date(dateKey))}
-                    </span>
-                    <Calendar className="h-5 w-5 text-primary-300" />
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
+        <EntryHistorySection
+          logbook={logbook}
+          loading={loading}
+          onEntryClick={handleEntryClick}
+          dateFilter={dateFilter}
+          setDateFilter={setDateFilter}
+          dateRange={dateRange}
+          filteredDates={filteredDates}
+          sortedDates={sortedDates}
+        />
       </main>
     </div>
   );
 };
+
+export function EntryHistorySection({
+  logbook,
+  loading,
+  onEntryClick,
+  dateFilter,
+  setDateFilter,
+  dateRange,
+  filteredDates,
+  sortedDates,
+}: {
+  logbook: LogBook | null;
+  loading: boolean;
+  onEntryClick: (dateKey: string) => void;
+  dateFilter: { from: string; to: string };
+  setDateFilter: React.Dispatch<
+    React.SetStateAction<{ from: string; to: string }>
+  >;
+  dateRange: { min: string; max: string };
+  filteredDates: string[];
+  sortedDates: string[];
+}) {
+  return (
+    <div className="mt-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+        <h3 className="text-xl font-semibold text-secondary-700 text-right">
+          ימים קודמים
+        </h3>
+        {sortedDates.length > 0 && (
+          <div className="flex flex-col sm:flex-row gap-2 items-center">
+            <label className="text-sm text-secondary-600 whitespace-nowrap">
+              סינון לפי תאריך:
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="date"
+                min={dateRange.min}
+                max={dateRange.max}
+                value={dateFilter.from}
+                onChange={(e) =>
+                  setDateFilter((prev: any) => ({
+                    ...prev,
+                    from: e.target.value,
+                  }))
+                }
+                className="border border-neutral-300 rounded px-2 py-1 text-sm"
+              />
+              <span className="text-secondary-500 self-center">עד</span>
+              <input
+                type="date"
+                min={dateRange.min}
+                max={dateRange.max}
+                value={dateFilter.to}
+                onChange={(e) =>
+                  setDateFilter((prev: any) => ({
+                    ...prev,
+                    to: e.target.value,
+                  }))
+                }
+                className="border border-neutral-300 rounded px-2 py-1 text-sm"
+              />
+              {(dateFilter.from || dateFilter.to) && (
+                <button
+                  onClick={() => setDateFilter({ from: '', to: '' })}
+                  className="text-primary-500 hover:text-primary-700 text-sm"
+                >
+                  נקה
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+      <div className="bg-white rounded-xl shadow-sm p-8 border border-neutral-100">
+        {loading ? (
+          <div className="text-center text-secondary-400">טוען נתונים...</div>
+        ) : sortedDates.length === 0 ? (
+          <div className="text-center text-secondary-400">אין רשומות עדיין</div>
+        ) : filteredDates.length === 0 ? (
+          <div className="text-center text-secondary-400">
+            אין רשומות בטווח התאריכים שנבחר
+          </div>
+        ) : (
+          <ul className="divide-y divide-neutral-100">
+            {filteredDates.map((dateKey: string) => (
+              <li
+                key={dateKey}
+                className="py-4 flex items-center justify-between cursor-pointer hover:bg-neutral-50 rounded-lg px-2"
+                onClick={() => onEntryClick(dateKey)}
+              >
+                <span className="font-medium text-secondary-700">
+                  {formatDate(new Date(dateKey))}
+                </span>
+                <Calendar className="h-5 w-5 text-primary-300" />
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
