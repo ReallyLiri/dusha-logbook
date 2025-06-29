@@ -1,5 +1,5 @@
 import { Navbar } from '../components/Navbar.tsx';
-import { Calendar, Sun } from 'lucide-react';
+import { Calendar, Sparkles, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 import { LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
@@ -63,12 +63,12 @@ export const Home = () => {
         <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
           <div className="order-2 md:order-1 bg-white rounded-2xl shadow-lg p-2 md:p-8 flex-1 w-full">
             <div className="flex items-center space-x-3 space-x-reverse mb-4">
-              <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full hidden md:flex items-center justify-center">
-                <Sun className="h-6 w-6 text-white" />
-              </div>
               <div className="text-right">
-                <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700">
+                <h1 className="text-2xl sm:text-3xl font-bold text-secondary-700 flex items-center gap-4">
                   ברוכה הבאה, {name}!
+                  <div className="h-12 w-12 bg-gradient-to-br from-primary-300 to-secondary-300 rounded-full flex items-center justify-center">
+                    <Sun className="h-6 w-6 text-white" />
+                  </div>
                 </h1>
                 {!hasMotivation && (
                   <p className="text-secondary-500 mt-1">
@@ -125,12 +125,13 @@ export const Home = () => {
                   )}
                 </div>
                 <button
-                  className="mt-4 bg-primary-400 text-white px-4 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
+                  className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
                   onClick={() => navigate('/motivation')}
                 >
                   {hasMotivation
                     ? 'עריכת מוטיבציה ומטרות'
                     : 'הגדרת מוטיבציה ומטרות'}
+                  <Sparkles />
                 </button>
               </div>
             </div>
