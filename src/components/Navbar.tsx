@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { ChevronDown, LogOut, User } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
+import { Link } from 'react-router-dom';
 
 export const Navbar: React.FC = () => {
   const { currentUser, logout } = useAuth();
@@ -32,6 +33,9 @@ export const Navbar: React.FC = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  const adminEmails = ['reallyliri@gmail.com', 'daniellegr1994@gmail.com'];
+  const isAdmin = adminEmails.includes(currentUser?.email || '');
 
   return (
     <nav className="bg-white border-b border-neutral-200 shadow-sm">
@@ -83,6 +87,14 @@ export const Navbar: React.FC = () => {
             {/* Dropdown Menu */}
             {dropdownOpen && (
               <div className="absolute left-0 mt-2 w-auto bg-white rounded-lg shadow-lg border border-neutral-200 py-1 z-50">
+                {isAdmin && (
+                  <Link
+                    to="/admin/view"
+                    className="w-full flex flex-row-reverse items-center justify-end px-4 py-2 text-sm text-primary-600 hover:bg-primary-50 transition-colors"
+                  >
+                    <span className="mr-2 text-right w-full">ניהול</span>
+                  </Link>
+                )}
                 <button
                   onClick={handleLogout}
                   className="w-full flex flex-row-reverse items-center justify-end px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
