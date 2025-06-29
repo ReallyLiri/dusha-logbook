@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { fetchFromDb } from '../util/db';
 import { EntryHistorySection } from './Home';
 import { LogBook } from '../models/entry';
@@ -59,6 +59,11 @@ export default function AdminUserDetailPage() {
 
   return (
     <div className="max-w-3xl mx-auto py-8 px-4">
+      <div className="mb-4">
+        <Link to="/admin/view" className="text-primary-500 hover:underline">
+          חזרה לכל המשתמשים ←
+        </Link>
+      </div>
       <h1 className="text-2xl font-bold mb-4 text-secondary-700">
         {logbook.user.name} ({logbook.user.email})
       </h1>

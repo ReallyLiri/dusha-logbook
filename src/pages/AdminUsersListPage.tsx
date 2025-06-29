@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchAllUsers } from '../util/db';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { LogBook } from '../models/entry.ts';
 
 export default function AdminUsersListPage() {
@@ -17,6 +17,11 @@ export default function AdminUsersListPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-8 px-4">
+      <div className="mb-4">
+        <Link to="/" className="text-primary-500 hover:underline">
+          חזרה לדף הבית ←
+        </Link>
+      </div>
       <h1 className="text-2xl font-bold mb-6 text-secondary-700">
         כל המשתמשים
       </h1>
