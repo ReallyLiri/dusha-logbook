@@ -1,14 +1,21 @@
-import { db } from '../config/firebase.ts';
+import { auth, db } from '../config/firebase.ts';
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { LogBook, LogEntry } from '../models/entry.ts';
 
 const COLLECTION_NAME = 'logbook';
+
+const userData = () => ({
+  uid: auth.currentUser?.uid || '',
+  name: auth.currentUser?.displayName || '',
+  email: auth.currentUser?.email || '',
+});
 
 const empty = (): LogBook => ({
   entriesByDay: {},
   goals: [],
   targets: [],
   motivation: '',
+  user: userData(),
 });
 
 export const fetchFromDb = async (uid: string) => {
@@ -36,6 +43,7 @@ export const setEntryData = async (
 
 export const setData = async (uid: string, data: Partial<LogBook>) => {
   const docRef = doc(collection(db, COLLECTION_NAME), uid);
+  data = { ...data, user: userData() };
   await setDoc(docRef, data, { merge: true });
   return (prev: LogBook | null): LogBook => ({
     ...(prev || empty()),

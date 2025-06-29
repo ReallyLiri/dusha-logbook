@@ -34,6 +34,12 @@ export interface LogEntry {
 export interface LogBook {
   entriesByDay: Record<string, Partial<LogEntry>>;
 
+  user: {
+    uid: string;
+    name: string;
+    email: string;
+  };
+
   goals: string[];
   targets: {
     name: string;
