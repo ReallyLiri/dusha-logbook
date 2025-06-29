@@ -42,7 +42,7 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex items-center justify-center px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50 flex items-center justify-center px-4 py-2">
       <div className="flex flex-col items-center justify-center w-full max-w-3xl">
         <div className="max-h-[50vh] flex-shrink-0 flex items-center justify-center mb-[-1.5rem] z-10">
           <img
