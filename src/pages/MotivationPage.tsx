@@ -28,6 +28,9 @@ export const MotivationPage = () => {
         }
     )
   );
+  const [selectedTargets, setSelectedTargets] = useState<string[]>(
+    (logbook?.targets || []).map((t) => t.name)
+  );
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -43,6 +46,7 @@ export const MotivationPage = () => {
           }
       )
     );
+    setSelectedTargets((logbook?.targets || []).map((t) => t.name));
   }, [logbook]);
 
   const handleGoalChange = (idx: number, value: string) => {
@@ -51,6 +55,23 @@ export const MotivationPage = () => {
   const handleAddGoal = () => setGoals([...goals, '']);
   const handleRemoveGoal = (idx: number) =>
     setGoals(goals.filter((_, i) => i !== idx));
+
+  const handleSelectTarget = (name: string) => {
+    if (selectedTargets.includes(name)) {
+      setSelectedTargets(selectedTargets.filter((n) => n !== name));
+      setTargets(
+        targets.map((t) => (t.name === name ? { ...t, from: '', to: '' } : t))
+      );
+    } else {
+      setSelectedTargets([...selectedTargets, name]);
+    }
+  };
+  const handleRemoveTarget = (name: string) => {
+    setSelectedTargets(selectedTargets.filter((n) => n !== name));
+    setTargets(
+      targets.map((t) => (t.name === name ? { ...t, from: '', to: '' } : t))
+    );
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -126,56 +147,93 @@ export const MotivationPage = () => {
           <hr className="my-4 border-t border-neutral-200 opacity-60" />
           <div>
             <label className="block text-secondary-600 mb-1">יעדים</label>
-            <div className="overflow-x-auto">
-              <table className="min-w-full border border-neutral-200 rounded-lg">
-                <thead>
-                  <tr>
-                    <th className="px-2 py-1 text-right font-medium text-secondary-600"></th>
-                    <th className="px-2 py-1 text-right font-medium text-secondary-600">
-                      התחלה
-                    </th>
-                    <th className="px-2 py-1 text-right font-medium text-secondary-600">
-                      יעד
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {targets.map((target, idx) => (
-                    <tr key={target.name}>
-                      <td className="px-2 py-1 text-secondary-700 whitespace-nowrap">
-                        {target.name}
-                      </td>
-                      <td className="px-2 py-1">
-                        <input
-                          value={target.from}
-                          onChange={(e) =>
-                            setTargets(
-                              targets.map((t, i) =>
-                                i === idx ? { ...t, from: e.target.value } : t
-                              )
-                            )
-                          }
-                          className="w-full border border-neutral-200 rounded-lg px-2 py-1"
-                        />
-                      </td>
-                      <td className="px-2 py-1">
-                        <input
-                          value={target.to}
-                          onChange={(e) =>
-                            setTargets(
-                              targets.map((t, i) =>
-                                i === idx ? { ...t, to: e.target.value } : t
-                              )
-                            )
-                          }
-                          className="w-full border border-neutral-200 rounded-lg px-2 py-1"
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {TARGET_NAMES.map((name) => (
+                <button
+                  type="button"
+                  key={name}
+                  className={`px-3 py-1 rounded-full border text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-primary-300 ${
+                    selectedTargets.includes(name)
+                      ? 'bg-primary-400 text-white border-primary-400'
+                      : 'bg-white text-primary-500 border-primary-300 hover:bg-primary-50'
+                  }`}
+                  onClick={() => handleSelectTarget(name)}
+                >
+                  {name}
+                  {selectedTargets.includes(name) && (
+                    <span className="mr-2">×</span>
+                  )}
+                </button>
+              ))}
             </div>
+            {selectedTargets.length > 0 && (
+              <div className="overflow-x-auto">
+                <table className="min-w-full border border-neutral-200 rounded-lg">
+                  <thead>
+                    <tr>
+                      <th className="px-2 py-1 text-right font-medium text-secondary-600"></th>
+                      <th className="px-2 py-1 text-right font-medium text-secondary-600">
+                        התחלה
+                      </th>
+                      <th className="px-2 py-1 text-right font-medium text-secondary-600">
+                        יעד
+                      </th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {targets
+                      .filter((target) => selectedTargets.includes(target.name))
+                      .map((target, idx) => (
+                        <tr key={target.name}>
+                          <td className="px-2 py-1 text-secondary-700 whitespace-nowrap">
+                            {target.name}
+                          </td>
+                          <td className="px-2 py-1">
+                            <input
+                              value={target.from}
+                              onChange={(e) =>
+                                setTargets(
+                                  targets.map((t) =>
+                                    t.name === target.name
+                                      ? { ...t, from: e.target.value }
+                                      : t
+                                  )
+                                )
+                              }
+                              className="w-full border border-neutral-200 rounded-lg px-2 py-1"
+                            />
+                          </td>
+                          <td className="px-2 py-1">
+                            <input
+                              value={target.to}
+                              onChange={(e) =>
+                                setTargets(
+                                  targets.map((t) =>
+                                    t.name === target.name
+                                      ? { ...t, to: e.target.value }
+                                      : t
+                                  )
+                                )
+                              }
+                              className="w-full border border-neutral-200 rounded-lg px-2 py-1"
+                            />
+                          </td>
+                          <td className="px-2 py-1">
+                            <button
+                              type="button"
+                              className="text-red-500 text-xs"
+                              onClick={() => handleRemoveTarget(target.name)}
+                            >
+                              הסרה
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
           <div className="flex justify-center gap-4 mt-6">
             <button
