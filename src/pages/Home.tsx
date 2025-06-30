@@ -214,7 +214,7 @@ export function EntryHistorySection({
     <div className="mt-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
         <h3 className="text-xl font-semibold text-secondary-700 text-right">
-          ימים קודמים
+          המעקב שלי
         </h3>
         {sortedDates.length > 0 && (
           <div className="flex flex-col sm:flex-row gap-2 items-center">

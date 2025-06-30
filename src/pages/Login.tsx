@@ -22,9 +22,61 @@ const GoogleIcon = () => (
   </svg>
 );
 
+const disclaimerText = `ההתחברות מהווה הסכמה לתנאי השימוש ולמדיניות הפרטיות`;
+const modalContent = (
+  <div className="text-right text-secondary-700 text-sm space-y-4">
+    <div>
+      <span role="img" aria-label="policy">
+        📄
+      </span>{' '}
+      <b>מדיניות פרטיות:</b>
+      <br />
+      יומן DUSHA הוא יומן אישי לתיעוד מידע גופני, רגשי ותזונתי.
+      <br />
+      השימוש ביומן כולל איסוף מידע אישי כגון:
+      <ul className="list-disc pr-5">
+        <li>מידע גופני (כאבים, מחזור חודשי, תרגול)</li>
+        <li>מידע רגשי</li>
+        <li>תזונה יומית</li>
+      </ul>
+      כל המידע נשמר בצורה מאובטחת בשרתים של Google Firebase (או כל שירות שתבחרי
+      לציין).
+      <br />
+      המידע נגיש רק למשתמשת שהזינה אותו ולי – [שמך], לצורך ליווי אישי, מעקב
+      ותכנון שיעורים או תפריטים מותאמים.
+      <br />
+      המידע לא יועבר לגורם שלישי, ולא ייעשה בו כל שימוש מסחרי.
+      <br />
+      המשתמשת רשאית לבקש למחוק את המידע שלה בכל עת.
+      <br />
+      <b>חשוב:</b> היומן אינו מהווה אבחנה רפואית, טיפול פסיכולוגי או ייעוץ רפואי
+      מוסמך.
+    </div>
+    <div>
+      <span role="img" aria-label="terms">
+        📑
+      </span>{' '}
+      <b>תנאי שימוש:</b>
+      <br />
+      השימוש ביומן הוא אישי בלבד, לכל משתמשת שנרשמת לתהליך הליווי שלי.
+      <br />
+      אין להעתיק, לשכפל או להעביר את תכני היומן לאחרים ללא אישור מפורש.
+      <br />
+      אני לא אחראית על ניתוח או שימוש לא נכון במידע המוזן.
+      <br />
+      התהליך המלווה באמצעות היומן אינו מחליף ייעוץ רפואי, פסיכולוגי או תזונתי
+      מוסמך.
+      <br />
+      כל שימוש ביומן מהווה הסכמה למדיניות הפרטיות ותנאי השימוש.
+    </div>
+  </div>
+);
+
 export const Login: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [disclaimerChecked, setDisclaimerChecked] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const { loginWithGoogle } = useAuth();
 
@@ -76,9 +128,30 @@ export const Login: React.FC = () => {
                 </h2>
               </div>
 
+              {/* Disclaimer Checkbox */}
+              <div className="flex items-center mb-6 justify-center">
+                <input
+                  id="disclaimer"
+                  type="checkbox"
+                  checked={disclaimerChecked}
+                  onChange={(e) => setDisclaimerChecked(e.target.checked)}
+                  className="accent-primary-400 w-4 h-4 ml-2 cursor-pointer"
+                />
+                <label
+                  htmlFor="disclaimer"
+                  className="text-[14px] text-primary-500 underline cursor-pointer hover:text-primary-700"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setShowModal(true);
+                  }}
+                >
+                  {disclaimerText}
+                </label>
+              </div>
+
               <button
                 onClick={handleGoogleLogin}
-                disabled={loading}
+                disabled={loading || !disclaimerChecked}
                 className="w-full bg-white border-2 border-neutral-200 text-secondary-700 py-4 px-6 rounded-lg font-medium hover:bg-neutral-50 hover:border-neutral-300 focus:ring-2 focus:ring-primary-300 focus:ring-offset-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-3 space-x-reverse shadow-sm"
               >
                 {loading ? (
@@ -94,11 +167,23 @@ export const Login: React.FC = () => {
                 )}
               </button>
 
-              <div className="mt-6 text-center">
-                <p className="text-xs text-secondary-400">
-                  ההתחברות מהווה הסכמה לתנאי השימוש ולמדיניות הפרטיות
-                </p>
-              </div>
+              {/* Modal */}
+              {showModal && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-2">
+                  <div className="bg-white rounded-xl shadow-xl max-w-sm w-full p-6 relative mx-auto">
+                    <button
+                      className="absolute top-2 left-2 text-secondary-400 hover:text-secondary-600 text-lg"
+                      onClick={() => setShowModal(false)}
+                      aria-label="סגור"
+                    >
+                      ✕
+                    </button>
+                    <div className="overflow-y-auto max-h-[70vh] pr-2">
+                      {modalContent}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
