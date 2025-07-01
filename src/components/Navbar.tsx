@@ -42,13 +42,21 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center space-x-2 space-x-reverse">
-            <h1 className="text-xl font-bold text-secondary-600">
+          <div
+            className="flex items-center space-x-2 space-x-reverse cursor-pointer"
+            onClick={() => (window.location.href = '/')}
+          >
+            <h1 className="text-xl text-center font-bold text-secondary-600">
               Dusha's House
             </h1>
           </div>
-          <div className="flex items-center space-x-2 space-x-reverse">
-            <h1 className="text-xl font-bold text-primary-500">יומן מעקב</h1>
+          <div
+            className="flex items-center space-x-2 space-x-reverse cursor-pointer"
+            onClick={() => (window.location.href = '/')}
+          >
+            <h1 className="text-lg text-center font-bold text-primary-500">
+              יומן מעקב אישי לחיבור בין גוף, תנועה ורגש
+            </h1>
           </div>
 
           {/* User Menu */}
