@@ -40,11 +40,15 @@ export interface LogBook {
     email: string;
   };
 
-  goals: string[];
-  targets: {
-    name: string;
-    from: string;
-    to: string;
-  }[];
-  motivation?: string;
+  motivationByMonth?: {
+    [month: string]: {
+      motivation: string;
+      goals: string[];
+      targets: {
+        name: string;
+        from: string;
+        to: string;
+      }[];
+    };
+  };
 }

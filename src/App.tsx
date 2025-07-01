@@ -9,6 +9,7 @@ import { DbProvider } from './context/DbContext.tsx';
 import AdminUsersListPage from './pages/AdminUsersListPage';
 import AdminUserDetailPage from './pages/AdminUserDetailPage';
 import AdminUserEntryPage from './pages/AdminUserEntryPage';
+import PreviousMotivationsPage from './pages/PreviousMotivationsPage';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
@@ -22,6 +23,7 @@ const AppContent: React.FC = () => {
       <Route path="/" element={<Home />} />
       <Route path="/entry/:day" element={<EntryPage />} />
       <Route path="/motivation" element={<MotivationPage />} />
+      <Route path="/motivation/history" element={<PreviousMotivationsPage />} />
       <Route path="/admin/view" element={<AdminUsersListPage />} />
       <Route path="/admin/view/:uid" element={<AdminUserDetailPage />} />
       <Route path="/admin/view/:uid/:day" element={<AdminUserEntryPage />} />

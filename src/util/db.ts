@@ -12,9 +12,7 @@ const userData = () => ({
 
 const empty = (): LogBook => ({
   entriesByDay: {},
-  goals: [],
-  targets: [],
-  motivation: '',
+  motivationByMonth: {},
   user: userData(),
 });
 

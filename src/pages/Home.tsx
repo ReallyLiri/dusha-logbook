@@ -1,11 +1,12 @@
 import { Navbar } from '../components/Navbar.tsx';
-import { Calendar, Sparkles, Sun } from 'lucide-react';
+import { Calendar, History, Sparkles, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
-import { LogEntry, LogBook } from '../models/entry.ts';
+import { LogBook, LogEntry } from '../models/entry.ts';
 import { formatDate } from '../util/date.ts';
 import { useNavigate } from 'react-router-dom';
 import { useDbContext } from '../context/DbContext.tsx';
-import { useState, useMemo } from 'react';
+import { useMemo, useState } from 'react';
+import { MotivationSummaryCard } from '../components/MotivationSummaryCard';
 
 export const Home = () => {
   const { name } = useCurrentUser();
@@ -48,8 +49,16 @@ export const Home = () => {
     });
   }, [sortedDates, dateFilter]);
 
+  const currentMonth = new Date().toISOString().slice(0, 7);
   const hasMotivation =
-    logbook && (logbook.motivation || logbook.goals.length > 0);
+    logbook &&
+    logbook.motivationByMonth &&
+    logbook.motivationByMonth[currentMonth] &&
+    (logbook.motivationByMonth[currentMonth].motivation ||
+      (logbook.motivationByMonth[currentMonth].goals &&
+        logbook.motivationByMonth[currentMonth].goals.length > 0) ||
+      (logbook.motivationByMonth[currentMonth].targets &&
+        logbook.motivationByMonth[currentMonth].targets.length > 0));
 
   if (loading) {
     return <div className="text-center text-secondary-600">טוען...</div>;
@@ -75,65 +84,32 @@ export const Home = () => {
                     מוכנה לעקוב אחר התובנות שלך ולהתחיל במסע הצמיחה?
                   </p>
                 )}
-                <div className="flex flex-col md:flex-row gap-2 md:gap-[15vw]">
-                  {logbook?.motivation && (
-                    <div>
-                      <div className="flex gap-4 mt-4">
-                        <p className=" text-primary-700 font-semibold">
-                          מוטיבציה
-                        </p>
-                        <p className="text-secondary-500">
-                          {logbook.motivation}
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                  {logbook?.goals && logbook.goals.length > 0 && (
-                    <div>
-                      <p className="text-primary-700 mt-4 font-semibold">
-                        מטרות
-                      </p>
-                      <ul className="mt-2 text-secondary-700 list-disc pr-4">
-                        {logbook.goals.map((goal, index) => (
-                          <li key={index} className=" text-secondary-500">
-                            {goal}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                  {logbook && logbook.targets && logbook.targets.length > 0 && (
-                    <div>
-                      <p className="text-primary-700 mt-4 font-semibold">
-                        יעדים
-                      </p>
-                      <ul className="mt-2 text-secondary-700 list-disc pr-4">
-                        {logbook.targets.map(
-                          (target, idx) =>
-                            (target.from || target.to) && (
-                              <li key={idx}>
-                                <span className="text-secondary-500">
-                                  {target.name}:
-                                </span>
-                                {target.from && ` ${target.from}`}
-                                {target.to && ` ← ${target.to}`}
-                              </li>
-                            )
-                        )}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-                <button
-                  className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
-                  onClick={() => navigate('/motivation')}
-                >
-                  {hasMotivation
-                    ? 'עריכת מוטיבציה ומטרות'
-                    : 'הגדרת מוטיבציה ומטרות'}
-                  <Sparkles />
-                </button>
               </div>
+            </div>
+            {logbook?.motivationByMonth?.[currentMonth] && (
+              <MotivationSummaryCard
+                month={currentMonth}
+                data={logbook.motivationByMonth[currentMonth]}
+              />
+            )}
+            <div className="flex flex-col md:flex-row gap-2 md:gap-[15vw]"></div>
+            <div className="flex gap-2 mt-4">
+              <button
+                className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
+                onClick={() => navigate('/motivation')}
+              >
+                {hasMotivation
+                  ? 'עריכת מטרות לחודש זה'
+                  : 'הוספת מטרות לחודש זה'}
+                <Sparkles />
+              </button>
+              <button
+                className="bg-primary-400 text-white px-6 py-2 rounded-lg font-semibold hover:bg-primary-500 transition-colors flex items-center gap-2"
+                onClick={() => navigate('/motivation/history')}
+              >
+                היסטוריית מטרות
+                <History />
+              </button>
             </div>
           </div>
           <div className="order-1 md:order-2 max-h-[50vh] flex-shrink-0 hidden md:flex items-center justify-center md:mb-0">
@@ -190,7 +166,6 @@ export const Home = () => {
 };
 
 export function EntryHistorySection({
-  logbook,
   loading,
   onEntryClick,
   dateFilter,
@@ -228,7 +203,7 @@ export function EntryHistorySection({
                 max={dateRange.max}
                 value={dateFilter.from}
                 onChange={(e) =>
-                  setDateFilter((prev: any) => ({
+                  setDateFilter((prev: { from: string; to: string }) => ({
                     ...prev,
                     from: e.target.value,
                   }))
@@ -242,7 +217,7 @@ export function EntryHistorySection({
                 max={dateRange.max}
                 value={dateFilter.to}
                 onChange={(e) =>
-                  setDateFilter((prev: any) => ({
+                  setDateFilter((prev: { from: string; to: string }) => ({
                     ...prev,
                     to: e.target.value,
                   }))

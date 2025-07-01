@@ -5,3 +5,9 @@ export const formatDate = (date: Date) =>
     month: 'long',
     year: 'numeric',
   });
+
+export const formatMonth = (date: Date) =>
+  date.toLocaleDateString('he-IL', {
+    month: 'long',
+    year: 'numeric',
+  });
