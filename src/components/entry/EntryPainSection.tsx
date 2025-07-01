@@ -16,8 +16,7 @@ export const EntryPainSection: React.FC<Props> = ({
   value = value || {
     locations: [],
     detailsBefore: [],
-    detailsAfterTherapy: [],
-    detailsAfterTraining: [],
+    detailsAfter: [],
   };
 
   const handleDetailsChange = (
@@ -57,13 +56,7 @@ export const EntryPainSection: React.FC<Props> = ({
       />
 
       <hr className="my-4 border-t border-neutral-200 opacity-60" />
-      {(
-        [
-          'detailsBefore',
-          'detailsAfterTherapy',
-          'detailsAfterTraining',
-        ] as const
-      )
+      {(['detailsBefore', 'detailsAfter'] as const)
         .filter((key) => editMode || (value[key] as PainDetails[]).length > 0)
         .map((key, i) => (
           <div key={key}>
@@ -71,9 +64,8 @@ export const EntryPainSection: React.FC<Props> = ({
               <hr className="my-4 border-t border-neutral-200 opacity-60" />
             )}
             <label className="block text-secondary-600 mt-4 mb-1">
-              {key === 'detailsBefore' && 'רמת כאב לפני'}
-              {key === 'detailsAfterTherapy' && 'רמת כאב אחרי טיפול'}
-              {key === 'detailsAfterTraining' && 'רמת כאב אחרי אימון'}
+              {key === 'detailsBefore' && 'פירוט: כאבים לפני תנועה'}
+              {key === 'detailsAfter' && 'פירוט: כאבים לאחר תנועה'}
             </label>
             {(value[key] as PainDetails[]).map((det, idx) => (
               <div key={idx} className="flex gap-2 items-center mb-2">
@@ -81,7 +73,7 @@ export const EntryPainSection: React.FC<Props> = ({
                   type="text"
                   disabled={!editMode}
                   className="border rounded px-2 py-1"
-                  placeholder="איפה כואב?"
+                  placeholder="מיקום הכאב"
                   value={det.where}
                   onChange={(e) =>
                     handleDetailsChange(key, idx, 'where', e.target.value)

@@ -7,8 +7,7 @@ export interface LogEntry {
   pain: {
     locations: string[];
     detailsBefore: PainDetails[];
-    detailsAfterTherapy: PainDetails[];
-    detailsAfterTraining: PainDetails[];
+    detailsAfter: PainDetails[];
   };
   nutrition: {
     breakfast?: string;
