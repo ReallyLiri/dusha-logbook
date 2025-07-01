@@ -10,6 +10,7 @@ import AdminUsersListPage from './pages/AdminUsersListPage';
 import AdminUserDetailPage from './pages/AdminUserDetailPage';
 import AdminUserEntryPage from './pages/AdminUserEntryPage';
 import PreviousMotivationsPage from './pages/PreviousMotivationsPage';
+import { Navbar } from './components/Navbar';
 
 const AppContent: React.FC = () => {
   const { currentUser } = useAuth();
@@ -37,6 +38,7 @@ function App() {
     <AuthProvider>
       <BrowserRouter>
         <DbProvider>
+          <Navbar />
           <AppContent />
         </DbProvider>
       </BrowserRouter>

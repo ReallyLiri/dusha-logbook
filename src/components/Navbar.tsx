@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
   const isAdmin = adminEmails.includes(currentUser?.email || '');
 
   return (
-    <nav className="bg-white border-b border-neutral-200 shadow-sm">
+    <nav className="relative bg-white border-b border-neutral-200 shadow-sm z-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}

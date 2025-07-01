@@ -1,4 +1,3 @@
-import { Navbar } from '../components/Navbar.tsx';
 import { Calendar, History, Sparkles, Sun } from 'lucide-react';
 import { useCurrentUser } from '../hooks/useCurrentUser.ts';
 import { LogBook, LogEntry } from '../models/entry.ts';
@@ -66,7 +65,6 @@ export const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50">
-      <Navbar />
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-8">
