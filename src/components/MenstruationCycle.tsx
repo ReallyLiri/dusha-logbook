@@ -37,7 +37,7 @@ export function MenstrualCycleSelector({
       style={{ height: '24rem' }}
     >
       <div className="relative w-96 h-96">
-        <div className="absolute inset-0 rounded-full border-2 border-gray-200"></div>
+        <div className="absolute inset-0 rounded-full md:border-2 md:border-gray-200"></div>
 
         {Array.from({ length: 28 }, (_, i) => {
           const day = i + 1;
