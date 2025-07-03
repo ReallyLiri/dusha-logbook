@@ -28,6 +28,15 @@ export interface LogEntry {
     meals?: string[];
     general?: string[];
   };
+  menstruation: {
+    day?: number;
+    numOfDays?: number;
+    bloodColor?: string;
+    lumps?: string;
+    pain?: boolean;
+    sticky?: boolean;
+    afterwards?: string[];
+  };
 }
 
 export interface LogBook {

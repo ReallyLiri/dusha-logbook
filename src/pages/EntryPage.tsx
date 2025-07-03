@@ -6,12 +6,14 @@ import { useDbContext } from '../context/DbContext.tsx';
 import { EntryPainSection } from '../components/entry/EntryPainSection';
 import { EntryNutritionSection } from '../components/entry/EntryNutritionSection';
 import { EntryFeelingsSection } from '../components/entry/EntryFeelingsSection';
+import { EntryMenstruationSection } from '../components/entry/EntryMenstruationSection';
 import { Check, Pencil } from 'lucide-react';
 
 const TABS = [
   { key: 'pain', label: 'כאבים' },
   { key: 'nutrition', label: 'תזונה' },
   { key: 'feelings', label: 'הרגשה' },
+  { key: 'menstruation', label: 'ווסת' },
 ];
 
 export const EntryPage = ({
@@ -156,6 +158,15 @@ export const EntryPage = ({
               value={entry?.feelings}
               onChange={(feelings) =>
                 setEntry((e) => ({ ...(e || {}), feelings }))
+              }
+              editMode={editMode}
+            />
+          )}
+          {activeTab === 'menstruation' && (
+            <EntryMenstruationSection
+              value={entry?.menstruation}
+              onChange={(menstruation) =>
+                setEntry((e) => ({ ...(e || {}), menstruation }))
               }
               editMode={editMode}
             />

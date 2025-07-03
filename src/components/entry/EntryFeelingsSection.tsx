@@ -49,19 +49,6 @@ const getLabel = (field: string) => {
   }
 };
 
-const getPlaceholder = (field: string) => {
-  switch (field) {
-    case 'training':
-      return 'איך הרגשת אחרי האימון או הטיפול? שחרור, החמרה, אנרגטיות, עייפות ...';
-    case 'meals':
-      return 'איך הרגשת אחרי ארוחה? כבדות, נפיחות, עצירות, יציאות רכות, אנרגטיות ...';
-    case 'general':
-      return 'תובנות או מחשבות שעלו לי. משהו נחמד להגיד לעצמי.';
-    default:
-      return '';
-  }
-};
-
 export const EntryFeelingsSection: React.FC<Props> = ({
   value,
   onChange,
@@ -119,7 +106,8 @@ export const EntryFeelingsSection: React.FC<Props> = ({
                       value?.[field]?.includes(option)
                         ? 'bg-primary-400 text-white border-primary-400'
                         : 'bg-white text-primary-500 border-primary-200 hover:bg-primary-50'
-                    } ${!editMode ? 'opacity-60 cursor-not-allowed' : ''}`}
+                    }${editMode ? '' : ' cursor-default'}${editMode ? '' : ''}`}
+                    style={!editMode ? { pointerEvents: 'none' } : {}}
                     onClick={() => handleSelect(field, option)}
                   >
                     {option}
@@ -132,9 +120,8 @@ export const EntryFeelingsSection: React.FC<Props> = ({
                       key={custom}
                       type="button"
                       disabled={!editMode}
-                      className={`px-3 py-1 rounded-full border text-sm transition-all bg-primary-100 text-primary-700 border-primary-200 ${
-                        !editMode ? 'opacity-60 cursor-not-allowed' : ''
-                      }`}
+                      className={`px-3 py-1 rounded-full border text-sm transition-all bg-primary-100 text-primary-700 border-primary-200${editMode ? '' : ' cursor-default'}`}
+                      style={!editMode ? { pointerEvents: 'none' } : {}}
                       onClick={() => handleSelect(field, custom)}
                     >
                       {custom}
